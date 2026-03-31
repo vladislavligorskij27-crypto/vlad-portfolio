@@ -1,89 +1,101 @@
-🚀 Personal Portfolio & Software Engineer Showcase
+💼 Software Engineer Portfolio & Technical Showcase
 
-<p align="left">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/%D0%A1%D1%82%D0%B0%D1%82%D1%83%D1%81-%D0%97%D0%B0%D0%B4%D0%B5%D0%BF%D0%BB%D0%BE%D0%B5%D0%BD%D0%BE-success%3Fstyle%3Dfor-the-badge" alt="Status">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-MIT-blue%3Fstyle%3Dfor-the-badge" alt="License">
+<p align="center">
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/Production-Live-success%3Fstyle%3Dfor-the-badge%26logo%3Dnetlify%26logoColor%3Dwhite" alt="Status">
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/Main_Language-JavaScript-F7DF1E%3Fstyle%3Dfor-the-badge%26logo%3Djavascript%26logoColor%3Dblack" alt="Main Language">
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/License-MIT-blue%3Fstyle%3Dfor-the-badge" alt="License">
 </p>
 
-Добро пожаловать в мой центральный проект! Это современный, высокопроизводительный сайт-портфолио, созданный для демонстрации моих навыков в системном программировании, веб-технологиях и архитектуре баз данных.
+📝 Обзор проекта
 
-🛠 Технологический стек (Tech Stack)
+Данный репозиторий представляет собой профессиональное веб-решение, разработанное для демонстрации компетенций в области Backend и Frontend разработки. Проект сочетает в себе современные архитектурные подходы, высокую производительность и интеграцию с внешними API.
 
-🗄 Backend & Core
+Ключевая цель: Создание отказоустойчивого интерфейса взаимодействия с пользователем с поддержкой реального времени.
+
+🛠 Технологический стек
+
+Core Backend & Systems
 
 Технология
 
-Описание
+Назначение
 
-Java
+Java / Spring Boot
 
-Разработка надежных серверных решений на Spring Boot.
+Разработка микросервисов и масштабируемых серверных компонентов.
 
-C++ / C#
+C++ / C# (.NET)
 
-Системное программирование и высоконагруженные приложения.
+Проектирование высоконагруженных модулей и системного ПО.
 
 Python
 
-Скрипты автоматизации, парсинг данных и аналитика.
+Автоматизация процессов, обработка данных и скриптинг.
 
-SQL
+SQL (PostgreSQL/MySQL)
 
-Проектирование БД (PostgreSQL, MySQL), оптимизация запросов.
+Архитектура реляционных баз данных и оптимизация запросов.
 
-🎨 Frontend & UI/UX
+Frontend Engineering
 
-<p align="left">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/html5-%2523E34F26.svg%3Fstyle%3Dfor-the-badge%26logo%3Dhtml5%26logoColor%3Dwhite" alt="HTML5">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/tailwindcss-%252338B2AC.svg%3Fstyle%3Dfor-the-badge%26logo%3Dtailwind-css%26logoColor%3Dwhite" alt="TailwindCSS">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/javascript-%2523323330.svg%3Fstyle%3Dfor-the-badge%26logo%3Djavascript%26logoColor%3D%2523F7DF1E" alt="JavaScript">
-</p>
+Стек
 
-✨ Ключевые особенности
+Применение
 
-🌓 Адаптивная тема: Интеллектуальное переключение Dark/Light мода.
+HTML5 / ES6+ JS
 
-🤖 Telegram Integration: "Бессерверная" отправка сообщений напрямую в мессенджер.
+Логика клиентской части и объектная модель документа (DOM).
 
-📈 Динамический таймлайн: Визуализация этапов обучения и развития.
+Tailwind CSS
 
-⚡ Zero Bloat: Минимальный вес страницы и мгновенная загрузка.
+Адаптивная верстка и реализация UI-компонентов.
 
-🚀 Как работает обратная связь?
+Telegram API
 
-В проекте реализован прямой мост между браузером и Telegram Bot API:
+Обеспечение двусторонней связи через Bot API.
 
-Сбор: JS формирует объект из полей ввода.
+⚙️ Функциональные возможности
 
-Запрос: Асинхронный fetch отправляет данные на сервера Telegram.
+Архитектура Zero-Backend: Реализация передачи данных пользователю напрямую через защищенные API-протоколы.
 
-Доставка: Бот мгновенно пересылает сообщение мне в личку.
+Интеллектуальный UI: Автоматическая синхронизация цветовой схемы (Dark/Light Mode) на основе системных предпочтений или выбора пользователя.
 
-📂 Структура проекта
+Интерактивный таймлайн: Визуализация профессионального роста и этапов освоения сложных технологий.
+
+Оптимизация: Минимальное количество внешних HTTP-запросов для обеспечения максимальной скорости рендеринга.
+
+📂 Структура репозитория
 
 .
-├── index.html          # Код сайта (разметка, стили, логика)
-├── README.md           # Документация (вы здесь)
-└── .gitignore          # Исключения для Git
+├── index.html          # Исходный код (Single-file Component Architecture)
+├── README.md           # Техническая документация проекта
+└── .gitignore          # Конфигурация исключений системы контроля версий
 
 
-📦 Локальное развертывание
+🚀 Развертывание и запуск
 
-Клонируйте репозиторий:
+Локальная среда
+
+Для локального запуска необходимо клонировать репозиторий и открыть файл в браузере:
 
 git clone [https://github.com/vladislavligorskij27-crypto/vlad-portfolio.git](https://github.com/vladislavligorskij27-crypto/vlad-portfolio.git)
 
 
-Запуск: Просто откройте index.html в любом браузере.
+Production среда
 
-📬 Контакты и ссылки
+Проект автоматически развернут через пайплайн Netlify и доступен по адресу:
+🔗 portfoliovladislav.netlify.app
 
-🌍 Живое демо: portfoliovladislav.netlify.app
+📬 Контактная информация
 
-💬 Telegram: @Whaat1sLove
+Для обсуждения технических вопросов или предложений о сотрудничестве:
 
-🐙 GitHub: vladislavligorskij27-crypto
+GitHub Profile: vladislavligorskij27-crypto
+
+Telegram (Direct): @Whaat1sLove
+
+Email: При необходимости предоставляется по запросу.
 
 <p align="center">
-<i>Сделано с душой. Влад. 2026</i>
+<i>Copyright © 2026 Vladislav. All rights reserved.</i>
 </p>
