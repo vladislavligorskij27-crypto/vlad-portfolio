@@ -4,11 +4,6 @@
 <b>Высокопроизводительное веб-решение для демонстрации профессиональных навыков и автоматизированной связи.</b>
 </p>
 
-<p align="center">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/Production-Live-success%3Fstyle%3Dfor-the-badge%26logo%3Dnetlify%26logoColor%3Dwhite" alt="Status">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/Main_Language-JavaScript-F7DF1E%3Fstyle%3Dfor-the-badge%26logo%3Djavascript%26logoColor%3Dblack" alt="Main Language">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/Architecture-Serverless-blue%3Fstyle%3Dfor-the-badge" alt="Architecture">
-</p>
 </div>
 
 О проекте
@@ -51,7 +46,7 @@ cd vlad-portfolio
 
 2. Настройка конфигурации
 
-Для работы формы обратной связи откройте index.html и укажите данные вашего бота:
+Для работы формы обратной связи откройте index.html и укажите данные вашего бота в секции JavaScript:
 
 const TELEGRAM_BOT_TOKEN = 'ВАШ_ТОКЕН';
 const TELEGRAM_CHAT_ID = 'ВАШ_ID';
