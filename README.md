@@ -2,7 +2,7 @@
 <h1>🚀 Vlad.Dev — Интерактивное портфолио</h1>
 <p>Не просто сайт-визитка, а полноценное интерактивное веб-приложение с терминалом, пасхалками и стильным UI.</p>
 
-<b><a href="[https://vlad.dev](https://portfoliovladislav.netlify.app)">🌍 Смотреть Live Demo</a></b>   •   <b><a href="https://www.google.com/search?q=https://t.me/Whaat1sLove">💬 Написать в Telegram</a></b>
+<b><a href="https://portfoliovladislav.netlify.app">🌍 Смотреть Live Demo</a></b>   •   <b><a href="https://www.google.com/search?q=https://t.me/Whaat1sLove">💬 Написать в Telegram</a></b>
 
 </div>
 
