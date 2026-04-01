@@ -2,12 +2,8 @@
 <h1>🚀 Vlad.Dev — Интерактивное портфолио</h1>
 <p>Не просто сайт-визитка, а полноценное интерактивное веб-приложение с терминалом, пасхалками и стильным UI.</p>
 
-<a href="https://vlad.dev">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/LIVE_DEMO-6366f1%3Fstyle%3Dfor-the-badge%26logo%3Dfirefox%26logoColor%3Dwhite" alt="Live Demo" />
-</a>
-<a href="https://www.google.com/search?q=https://t.me/Whaat1sLove">
-<img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram" />
-</a>
+<b><a href="https://vlad.dev">🌍 Смотреть Live Demo</a></b>   •   <b><a href="https://www.google.com/search?q=https://t.me/Whaat1sLove">💬 Написать в Telegram</a></b>
+
 </div>
 
 ✨ О проекте
@@ -40,15 +36,17 @@
 
 🛠️ Стек технологий
 
-Проект построен с использованием современных веб-технологий и подходов:
+Проект построен с использованием современных веб-технологий и подходов. Я намеренно отказался от избыточных библиотек в пользу чистой производительности:
 
-<p align="left">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/HTML5-E34F26%3Fstyle%3Dfor-the-badge%26logo%3Dhtml5%26logoColor%3Dwhite" alt="HTML5" />
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/CSS3-1572B6%3Fstyle%3Dfor-the-badge%26logo%3Dcss3%26logoColor%3Dwhite" alt="CSS3" />
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/JavaScript-323330%3Fstyle%3Dfor-the-badge%26logo%3Djavascript%26logoColor%3DF7DF1E" alt="JavaScript" />
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/Tailwind_CSS-38B2AC%3Fstyle%3Dfor-the-badge%26logo%3Dtailwind-css%26logoColor%3Dwhite" alt="Tailwind CSS" />
-<img src="https://img.shields.io/badge/Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" />
-</p>
+🟠 HTML5 — семантическая и доступная разметка.
+
+🔵 CSS3 / Tailwind CSS — современная и адаптивная стилизация, плавная анимация.
+
+🟡 JavaScript (Vanilla) — вся логика терминала, пасхалок и запросов к API написана с нуля.
+
+☁️ Cloudflare Workers — бессерверный backend для безопасной обработки контактной формы и отправки сообщений в Telegram.
+
+💾 Web Storage API — кэширование проектов GitHub (чтобы не превышать лимиты API) и сохранение черновиков сообщений.
 
 🚀 Как запустить локально
 
