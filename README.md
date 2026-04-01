@@ -1,62 +1,63 @@
 <div align="center">
-<h1>Привет, я Влад! 👋</h1>
-<h3>Software Engineer | Backend-разработчик</h3>
-<p>Пишу надежный, быстрый и масштабируемый код.</p>
+<h1>🚀 Vlad.Dev — Интерактивное портфолио</h1>
+<p>Не просто сайт-визитка, а полноценное интерактивное веб-приложение с терминалом, пасхалками и стильным UI.</p>
 
 <a href="https://vlad.dev">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/%D0%A1%D0%B0%D0%B9%D1%82_%D0%9F%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE-6366f1%3Fstyle%3Dfor-the-badge%26logo%3Dfirefox%26logoColor%3Dwhite" alt="Portfolio" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/LIVE_DEMO-6366f1%3Fstyle%3Dfor-the-badge%26logo%3Dfirefox%26logoColor%3Dwhite" alt="Live Demo" />
 </a>
 <a href="https://www.google.com/search?q=https://t.me/Whaat1sLove">
-<img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/%D0%A1%D0%B2%D1%8F%D0%B7%D0%B0%D1%82%D1%8C%D1%81%D1%8F_%D0%B2_Telegram-2CA5E0%3Fstyle%3Dfor-the-badge%26logo%3Dtelegram%26logoColor%3Dwhite" alt="Telegram" />
 </a>
 </div>
 
-👨‍💻 Обо мне
+✨ О проекте
 
-🔭 В настоящее время активно разрабатываю серверные приложения на Java (Spring Boot) и C# (.NET).
+Этот репозиторий содержит исходный код моего личного сайта-портфолио. Главная цель проекта — показать навыки владения кодом, внимание к деталям (UI/UX) и умение создавать нестандартные интерактивные решения. Сайт написан на чистом Vanilla JS без использования тяжелых фреймворков, что обеспечивает максимальную скорость работы и плавность всех анимаций.
 
-🌱 Углубляюсь в архитектуру баз данных, проектирование API и микросервисы.
+🔥 Ключевые особенности
 
-💼 Пишу высокопроизводительный системный код на C++.
+💻 Встроенный Терминал: Нажмите ~ или иконку консоли, чтобы открыть стилизованный терминал. Он поддерживает автодополнение команд (клавиша Tab), историю (стрелочки вверх/вниз) и исполнение кастомных скриптов.
 
-🐍 Использую Python для автоматизации рутины и работы с большими данными.
+🎮 Мини-игры и Пасхалки: * Введите команду play snake в терминале для запуска классической змейки прямо поверх консоли.
 
-🎯 Моя цель: создавать софт, который работает идеально, выдерживает нагрузки и решает реальные проблемы.
+Команды matrix, stress-test, destroy запускают особые визуальные режимы.
 
-📫 Как связаться со мной: @Whaat1sLove
+Пятикратный клик по логотипу активирует секретный "Режим разработчика" 🪩.
 
-🛠️ Технический стек
+Вызов легендарной мобильной "Бочки" (Barrel Roll) при клике на консоль с телефона.
 
-Backend & System
+🌓 Темизация и Локализация: Мгновенное переключение между светлой/темной темой оформления и русским/английским языком без перезагрузки страницы (состояние сохраняется в localStorage).
 
-<p align="left">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/C%252B%252B-00599C%3Fstyle%3Dfor-the-badge%26logo%3Dc%252B%252B%26logoColor%3Dwhite" alt="C++" />
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/C%2523-239120%3Fstyle%3Dfor-the-badge%26logo%3Dc-sharp%26logoColor%3Dwhite" alt="C#" />
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/.NET-5C2D91%3Fstyle%3Dfor-the-badge%26logo%3D.net%26logoColor%3Dwhite" alt=".NET" />
-<img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/Spring_Boot-6DB33F%3Fstyle%3Dfor-the-badge%26logo%3Dspring-boot%26logoColor%3Dwhite" alt="Spring Boot" />
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/Python-3776AB%3Fstyle%3Dfor-the-badge%26logo%3Dpython%26logoColor%3Dwhite" alt="Python" />
-</p>
+🔗 Интеграция с GitHub API: Раздел "Мои проекты" и блок статистики автоматически подтягивают актуальные данные (звезды, форки, подписчики, репозитории) напрямую из моего GitHub-профиля.
 
-Базы данных и Инструменты
+📱 Адаптивность: Полностью отзывчивый дизайн, который отлично смотрится и функционирует как на широких мониторах, так и на мобильных устройствах.
+
+🛠️ Стек технологий проекта
+
+Проект построен с использованием современных веб-технологий и подходов:
 
 <p align="left">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/PostgreSQL-316192%3Fstyle%3Dfor-the-badge%26logo%3Dpostgresql%26logoColor%3Dwhite" alt="PostgreSQL" />
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/Git-F05032%3Fstyle%3Dfor-the-badge%26logo%3Dgit%26logoColor%3Dwhite" alt="Git" />
-<img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/HTML5-E34F26%3Fstyle%3Dfor-the-badge%26logo%3Dhtml5%26logoColor%3Dwhite" alt="HTML5" />
+<img src="https://www.google.com/search?q=https://img.shields.io/badge/CSS3-1572B6%3Fstyle%3Dfor-the-badge%26logo%3Dcss3%26logoColor%3Dwhite" alt="CSS3" />
+<img src="https://www.google.com/url?sa=E&source=gmail&q=https://img.shields.io/badge/JavaScript-323330?style=for-the-badge%26logo=javascript%26logoColor=F7DF1E" alt="JavaScript" />
+<img src="https://www.google.com/url?sa=E&source=gmail&q=https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge%26logo=tailwind-css%26logoColor=white" alt="Tailwind CSS" />
+<img src="https://img.shields.io/badge/Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers (Backend API)" />
 </p>
 
-📊 Статистика профиля
+🚀 Как запустить локально
 
-<div align="center">
-<img src="https://www.google.com/search?q=https://github-readme-stats.vercel.app/api%3Fusername%3Dvladislavligorskij27-crypto%26show_icons%3Dtrue%26theme%3Dradium%26hide_border%3Dtrue%26bg_color%3D0D1117%26title_color%3D4ade80%26icon_color%3D4ade80%26text_color%3Dcbd5e1" alt="Статистика Влада" />
+Для запуска проекта на вашем компьютере не требуются сборщики вроде npm или webpack. Всё максимально просто:
+
+# 1. Склонируйте репозиторий
+git clone [https://github.com/vladislavligorskij27-crypto/vlad-portfolio.git](https://github.com/vladislavligorskij27-crypto/vlad-portfolio.git)
+
+# 2. Перейдите в папку с проектом
+cd vlad-portfolio
+
+# 3. Откройте файл index.html в любом браузере
+# (Например, просто перетащите файл index.html в окно Chrome/Safari)
 
 
+📬 Обратная связь
 
-
-
-
-
-<img src="https://www.google.com/search?q=https://github-readme-stats.vercel.app/api/top-langs/%3Fusername%3Dvladislavligorskij27-crypto%26layout%3Dcompact%26theme%3Dradium%26hide_border%3Dtrue%26bg_color%3D0D1117%26title_color%3D4ade80%26text_color%3Dcbd5e1" alt="Топ языков" />
-</div>
+Если вы нашли баг, хотите предложить интересную фичу или просто обсудить код — смело создавайте Issue в этом репозитории или пишите мне напрямую в Telegram.
