@@ -1,25 +1,40 @@
 <!DOCTYPE html>
-<html lang="ru" class="scroll-smooth">
+<html lang="ru" class="scroll-smooth motion-reduce:scroll-auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Влад IT - Инженер-программист</title>
+    <title id="pageTitle">Влад IT - Инженер-программист</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='monospace' fill='%234ade80'>>_</text></svg>">
+    <meta property="og:title" content="Влад IT - Инженер-программист">
+    <meta property="og:description" content="Backend-разработчик. Пишу надежный, быстрый и масштабируемый код на C++, C#, Java и Python.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vlad.dev">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"> 
+    <meta property="og:site_name" content="Портфолио Влада">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             darkMode: 'class', 
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
                     colors: {
                         brand: {
                             500: '#6366f1',
                             600: '#4f46e5',
                         }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -36,6 +51,11 @@
         .dark ::-webkit-scrollbar-thumb { background: #334155; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
+        #terminalOutput::-webkit-scrollbar { width: 6px; }
+        #terminalOutput::-webkit-scrollbar-track { background: rgba(0, 255, 0, 0.05); }
+        #terminalOutput::-webkit-scrollbar-thumb { background: rgba(74, 222, 128, 0.3); border-radius: 3px; }
+        #terminalOutput::-webkit-scrollbar-thumb:hover { background: rgba(74, 222, 128, 0.8); }
+
         .bg-grid {
             background-size: 40px 40px;
             background-image: linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
@@ -45,6 +65,67 @@
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
+
+        [data-tooltip] { position: relative; }
+        
+        @media (hover: hover) {
+            [data-tooltip]::after {
+                content: attr(data-tooltip);
+                position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%) translateY(5px);
+                background-color: #1e293b; color: #f8fafc;
+                padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500; font-family: 'Inter', sans-serif;
+                white-space: normal; width: max-content; max-width: 200px; text-align: center;
+                opacity: 0; pointer-events: none;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 10000;
+            }
+            .dark [data-tooltip]::after { background-color: #334155; border: 1px solid #475569; }
+            
+            [data-tooltip]::before {
+                content: ''; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(5px);
+                border-width: 5px; border-style: solid; border-color: #1e293b transparent transparent transparent;
+                opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 10000;
+            }
+            .dark [data-tooltip]::before { border-color: #334155 transparent transparent transparent; }
+            
+            [data-tooltip]:hover::after, [data-tooltip]:hover::before { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+
+            .tooltip-bottom[data-tooltip]::after {
+                bottom: auto; top: 120%; transform: translateX(-50%) translateY(-5px);
+            }
+            .tooltip-bottom[data-tooltip]::before {
+                bottom: auto; top: 100%; border-color: transparent transparent #1e293b transparent; transform: translateX(-50%) translateY(-5px);
+            }
+            .dark .tooltip-bottom[data-tooltip]::before { border-color: transparent transparent #334155 transparent; }
+            .tooltip-bottom[data-tooltip]:hover::after, .tooltip-bottom[data-tooltip]:hover::before { transform: translateX(-50%) translateY(2px); }
+
+            .tooltip-right-edge[data-tooltip]::after {
+                left: auto; right: -10px; transform: translateX(0) translateY(5px);
+            }
+            .tooltip-right-edge[data-tooltip]::before {
+                left: auto; right: 10px; transform: translateX(0) translateY(5px);
+            }
+            .tooltip-right-edge[data-tooltip]:hover::after, .tooltip-right-edge[data-tooltip]:hover::before {
+                transform: translateX(0) translateY(-2px);
+            }
+
+            .tooltip-bottom.tooltip-right-edge[data-tooltip]::after {
+                left: auto; right: -10px; transform: translateX(0) translateY(-5px);
+            }
+            .tooltip-bottom.tooltip-right-edge[data-tooltip]::before {
+                left: auto; right: 10px; transform: translateX(0) translateY(-5px);
+            }
+            .tooltip-bottom.tooltip-right-edge[data-tooltip]:hover::after, 
+            .tooltip-bottom.tooltip-right-edge[data-tooltip]:hover::before {
+                transform: translateX(0) translateY(2px);
+            }
+        }
+
+        .ide-mockup {
+            transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .ide-mockup:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
 
         .typing-cursor::after { 
             content: '|'; 
@@ -58,157 +139,392 @@
             transform: translateY(40px); 
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); 
         }
-        .fade-up.visible { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
 
         .glow-card { transition: all 0.3s ease; }
         .glow-card:hover { box-shadow: 0 0 25px rgba(99, 102, 241, 0.2); transform: translateY(-5px); }
+
+        .glitch-wrapper { position: relative; display: inline-block; cursor: pointer; transition: color 0.3s, text-shadow 0.3s; }
+        .glitch-wrapper:hover::before, .glitch-wrapper:hover::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0); pointer-events: none;
+        }
+        .glitch-wrapper:hover::before { left: 2px; text-shadow: -2px 0 red; animation: glitch-anim-1 0.3s infinite linear alternate-reverse; }
+        .glitch-wrapper:hover::after { left: -2px; text-shadow: -2px 0 blue; animation: glitch-anim-2 0.4s infinite linear alternate-reverse; }
+        
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 20% 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 10% 0); }
+            60% { clip-path: inset(20% 0 50% 0); }
+            80% { clip-path: inset(90% 0 5% 0); }
+            100% { clip-path: inset(5% 0 80% 0); }
+        }
+
+        #terminal { transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+        #terminal.open { transform: translateY(0); }
+        .terminal-cursor { display: inline-block; width: 8px; height: 15px; background-color: #4ade80; animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 2px; }
+        #terminalInput { color: transparent; text-shadow: 0 0 0 #4ade80; }
+        #terminalInput:focus { outline: none; }
+
+        #custom-cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px; border: 2px solid #6366f1; border-radius: 50%;
+            pointer-events: none; z-index: 100000; transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s, opacity 0.2s; display: none;
+        }
+        #custom-cursor.cursor-hover { width: 50px; height: 50px; background-color: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.4); backdrop-filter: blur(2px); }
+        
+        @media (pointer: fine) {
+            body, a, button, .cursor-pointer { cursor: none !important; }
+            #custom-cursor { display: block; }
+        }
+
+        .blob-parallax { transition: transform 0.1s ease-out; }
+        .magnetic-wrap { display: inline-block; padding: 10px; }
+        .magnetic-btn { display: inline-block; transition: transform 0.2s ease-out, background-color 0.3s; will-change: transform; }
+        
+        .hl-code { color: #8b5cf6; font-family: 'Fira Code', monospace; font-weight: 600; padding: 0 4px; background: rgba(139, 92, 246, 0.1); border-radius: 4px; }
+        .dark .hl-code { color: #a78bfa; background: rgba(167, 139, 250, 0.15); }
+
+        @keyframes barrelRoll {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .do-barrel-roll {
+            animation: barrelRoll 1.5s ease-in-out;
+            overflow: hidden;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .animate-blob { animation: none !important; }
+            .ide-mockup { transform: none !important; transition: none !important; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white transition-colors duration-300 relative">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white transition-colors duration-300 relative overflow-x-hidden" id="bodyElement">
+
+    <div id="custom-cursor"></div>
+    <div id="scrollProgressBar" class="fixed top-0 left-0 h-1 bg-brand-500 z-[9999] transition-all duration-75 ease-out hover:h-2 hover:shadow-[0_0_15px_#6366f1] w-0"></div>
+
+    <div id="bootScreen" class="fixed inset-0 bg-black z-[9998] flex flex-col justify-center px-8 font-mono text-green-500 transition-opacity duration-1000">
+        <div id="bootTerminal" class="max-w-3xl w-full mx-auto space-y-2 text-sm md:text-lg whitespace-pre-wrap"></div>
+    </div>
+
+    <div id="terminal" class="fixed top-0 left-0 w-full h-[100vh] md:h-[50vh] bg-gray-950/95 backdrop-blur-xl z-[100] font-mono border-b border-green-500/30 shadow-[0_10px_30px_rgba(74,222,128,0.1)] flex flex-col">
+        <canvas id="matrixCanvas" class="absolute inset-0 w-full h-full opacity-0 pointer-events-none transition-opacity duration-1000 z-0"></canvas>
+        <div class="relative z-10 flex flex-col h-full p-4">
+            <div class="flex justify-between items-center text-green-600/70 text-xs mb-2 pb-2 border-b border-green-900/50">
+                <span data-i18n="term_header">user@vlad-dev: ~ (Нажми ESC или `~` чтобы закрыть)</span>
+                <div class="flex space-x-2">
+                    <button class="w-3 h-3 rounded-full bg-red-500/50 hover:bg-red-500 cursor-pointer" onclick="toggleTerminal()"></button>
+                    <button class="w-3 h-3 rounded-full bg-yellow-500/50"></button>
+                    <button class="w-3 h-3 rounded-full bg-green-500/50"></button>
+                </div>
+            </div>
+            <div id="terminalOutput" class="flex-1 overflow-y-auto text-green-400 text-sm md:text-base whitespace-pre-wrap break-words pb-2">
+                <div class="text-green-500 font-bold">Влад IT Terminal v2.0.0</div>
+                <div class="text-green-600/80 mb-4" data-i18n="term_welcome">Введите 'help' для списка команд. Для автодополнения используйте Tab.</div>
+            </div>
+            <div class="flex items-center text-sm md:text-base text-green-400 mt-2">
+                <span class="mr-2 text-green-500 font-bold">guest@vlad:~$</span>
+                <div class="relative flex-1 flex items-center">
+                    <input type="text" id="terminalInput" class="absolute inset-0 w-full bg-transparent border-none outline-none opacity-0 z-20 cursor-text" autocomplete="off" spellcheck="false">
+                    <span id="terminalVisualInput" class="z-10 text-green-400"></span><span class="terminal-cursor z-10"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="fixed top-4 right-4 z-40 hidden md:block">
+        <div class="bg-slate-800/50 dark:bg-black/50 backdrop-blur-sm text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700/50 cursor-pointer hover:bg-slate-800 transition" onclick="toggleTerminal()">
+            <span data-i18n="term_hint_1">Нажми</span> <kbd class="font-mono bg-slate-700 px-1 rounded text-green-400">~</kbd> <span data-i18n="term_hint_2">для консоли</span>
+        </div>
+    </div>
 
     <div class="fixed inset-0 bg-grid z-[-1] pointer-events-none"></div>
 
     <nav class="fixed w-full z-50 top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-600/30">
+                    <button class="tooltip-bottom w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-600/30 hover:scale-105 transition transform" onclick="handleTerminalClick(event)" aria-label="Открыть терминал" data-i18n-tooltip="tooltip_term" data-tooltip="Открыть консоль">
                         <i class="fa-solid fa-terminal text-xl"></i>
-                    </div>
-                    <span class="font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">Vlad.Dev</span>
+                    </button>
+                    <span id="logo-text" class="font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white glitch-wrapper" data-text="Vlad.Dev">Vlad.Dev</span>
                 </div>
-                <div class="hidden md:flex space-x-8 items-center font-medium">
-                    <a href="#home" class="text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition">Главная</a>
-                    <a href="#skills" class="text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition">Стек</a>
-                    <a href="#experience" class="text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition">Мой путь</a>
+                
+                <div class="hidden md:flex space-x-5 lg:space-x-8 items-center font-medium">
+                    <a href="#home" data-i18n="nav_home" class="nav-item text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition cursor-pointer">Главная</a>
+                    <a href="#skills" data-i18n="nav_skills" class="nav-item text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition cursor-pointer">Стек</a>
+                    <a href="#experience" data-i18n="nav_path" class="nav-item text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition cursor-pointer">Мой путь</a>
+                    <a href="#projects" data-i18n="nav_projects" class="nav-item text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition cursor-pointer">Проекты</a>
                     
-                    <button id="themeToggle" class="text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition text-xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <div class="h-6 w-px bg-slate-300 dark:bg-slate-700 mx-2"></div>
+                    
+                    <button id="soundToggle" class="tooltip-bottom tooltip-right-edge text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition text-lg w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer" data-i18n-tooltip="tooltip_sound" data-tooltip="Переключить звук">
+                        <i id="soundIconOff" class="fa-solid fa-volume-xmark"></i>
+                        <i id="soundIconOn" class="fa-solid fa-volume-high hidden text-brand-500"></i>
+                    </button>
+
+                    <button id="langToggleBtn" class="text-slate-600 dark:text-slate-300 font-bold hover:text-brand-600 dark:hover:text-brand-400 transition px-2 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">
+                        EN
+                    </button>
+
+                    <button id="themeToggle" class="tooltip-bottom tooltip-right-edge text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition text-xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer" data-i18n-tooltip="tooltip_theme" data-tooltip="Переключить тему">
                         <i id="themeIconDark" class="fa-solid fa-moon"></i>
                         <i id="themeIconLight" class="fa-solid fa-sun hidden"></i>
                     </button>
 
-                    <a href="#contact" class="bg-brand-600 text-white px-6 py-2.5 rounded-full hover:bg-brand-700 hover:shadow-lg hover:shadow-brand-600/30 transition transform hover:-translate-y-0.5">Связаться</a>
+                    <div class="magnetic-wrap">
+                        <a href="#contact" data-i18n="nav_contact" class="magnetic-btn nav-item cursor-pointer bg-brand-600 text-white px-6 py-2.5 rounded-full hover:bg-brand-700 hover:shadow-lg hover:shadow-brand-600/30 transition transform animate-pulse-slow block">Связаться</a>
+                    </div>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-slate-600 dark:text-slate-300 hover:text-brand-600 transition p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden absolute top-20 left-0 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-xl transition-all duration-300 origin-top">
+            <div class="px-4 pt-2 pb-6 flex flex-col space-y-2 text-center">
+                <a href="#home" data-i18n="nav_home" class="mobile-nav-item block px-4 py-3 rounded-xl text-lg font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-brand-600 transition">Главная</a>
+                <a href="#skills" data-i18n="nav_skills" class="mobile-nav-item block px-4 py-3 rounded-xl text-lg font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-brand-600 transition">Стек</a>
+                <a href="#experience" data-i18n="nav_path" class="mobile-nav-item block px-4 py-3 rounded-xl text-lg font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-brand-600 transition">Мой путь</a>
+                <a href="#projects" data-i18n="nav_projects" class="mobile-nav-item block px-4 py-3 rounded-xl text-lg font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-brand-600 transition">Проекты</a>
+                <a href="#contact" data-i18n="nav_contact" class="mobile-nav-item block px-4 py-3 mt-2 rounded-xl text-lg font-bold text-white bg-brand-600 hover:bg-brand-700 shadow-md transition">Связаться</a>
+                
+                <div class="border-t border-slate-200 dark:border-slate-700 pt-4 mt-4 flex justify-center space-x-8 items-center">
+                    <button id="mobileSoundToggle" class="text-slate-500 dark:text-slate-400 hover:text-brand-600 text-xl p-2 transition">
+                        <i id="mSoundIconOff" class="fa-solid fa-volume-xmark"></i>
+                        <i id="mSoundIconOn" class="fa-solid fa-volume-high hidden text-brand-500"></i>
+                    </button>
+                    <button id="mobileLangToggleBtn" class="text-slate-600 dark:text-slate-300 font-bold hover:text-brand-600 text-lg px-4 py-1 rounded-md transition bg-slate-100 dark:bg-slate-800">
+                        EN
+                    </button>
+                    <button id="mobileThemeToggle" class="text-slate-500 dark:text-slate-400 hover:text-brand-600 text-xl p-2 transition">
+                        <i id="mThemeIconDark" class="fa-solid fa-moon"></i>
+                        <i id="mThemeIconLight" class="fa-solid fa-sun hidden"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
     <header id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <canvas id="networkCanvas" class="absolute inset-0 w-full h-full opacity-60 z-0 pointer-events-none"></canvas>
+
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
-            <div class="absolute top-20 left-10 w-72 h-72 bg-purple-300 dark:bg-purple-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
-            <div class="absolute top-20 right-10 w-72 h-72 bg-indigo-300 dark:bg-indigo-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div id="blob1" class="absolute top-20 left-10 w-72 h-72 bg-purple-300 dark:bg-purple-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-blob blob-parallax"></div>
+            <div id="blob2" class="absolute top-20 right-10 w-72 h-72 bg-indigo-300 dark:bg-indigo-900/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000 blob-parallax"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 fade-up">
-            <div class="inline-block mb-6 px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-semibold text-sm tracking-wide shadow-sm">
-                <span class="w-2 h-2 inline-block bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                Software Engineer
-            </div>
-            
-            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight flex flex-col items-center justify-center">
-                <span class="mb-2">Создаю софт, который</span>
-                <span class="block min-h-[100px] sm:min-h-[120px] md:min-h-[140px] flex items-start justify-center w-full max-w-5xl">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-purple-600 leading-tight pb-2">
-                        <span id="typewriter"></span><span class="typing-cursor text-slate-900 dark:text-white"></span>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 fade-up flex flex-col lg:flex-row items-center justify-between">
+            <div class="text-center lg:text-left lg:w-1/2 flex flex-col items-center lg:items-start">
+                <div class="inline-block mb-6 px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-semibold text-sm tracking-wide shadow-sm cursor-pointer hover:scale-105 transition">
+                    <span class="w-2 h-2 inline-block bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                    <span data-i18n="hero_role">Software Engineer</span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight flex flex-col items-center lg:items-start justify-center lg:justify-start w-full">
+                    <span class="mb-2" data-i18n="hero_title1">Создаю софт, который</span>
+                    <span class="block min-h-[100px] sm:min-h-[120px] md:min-h-[140px] flex items-start justify-center lg:justify-start w-full max-w-5xl">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-purple-600 leading-tight pb-2">
+                            <span id="typewriter"></span><span class="typing-cursor text-slate-900 dark:text-white"></span>
+                        </span>
                     </span>
-                </span>
-            </h1>
+                </h1>
 
-            <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Привет, я Влад. Я специализируюсь на сложной backend-разработке. Пишу надежный, быстрый и масштабируемый код на C++, C#, Java и Python.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <a href="#experience" class="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-lg font-semibold px-8 py-4 rounded-full shadow-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition transform hover:-translate-y-1">
-                    Посмотреть мой путь <i class="fa-solid fa-arrow-down ml-2"></i>
-                </a>
-                <a href="https://github.com/vladislavligorskij27-crypto" target="_blank" class="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-800 dark:text-white text-lg font-semibold px-8 py-4 rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center justify-center">
-                    <i class="fa-brands fa-github mr-2 text-xl"></i> Мой GitHub
-                </a>
+                <p data-i18n="hero_desc" class="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    Привет, я Влад. Я специализируюсь на <span class="hl-code">backend</span>-разработке. Пишу надежный, быстрый и масштабируемый код на <span class="hl-code">C++</span>, <span class="hl-code">C#</span>, <span class="hl-code">Java</span> и <span class="hl-code">Python</span>.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start items-center space-y-4 sm:space-y-0 sm:space-x-6 w-full">
+                    <a href="#experience" class="cursor-pointer w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-lg font-semibold px-8 py-4 rounded-full shadow-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition transform hover:-translate-y-1">
+                        <span data-i18n="hero_btn_path">Посмотреть мой путь</span> <i class="fa-solid fa-arrow-down ml-2"></i>
+                    </a>
+                    <a href="https://github.com/vladislavligorskij27-crypto" target="_blank" class="cursor-pointer w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-800 dark:text-white text-lg font-semibold px-8 py-4 rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center justify-center">
+                        <i class="fa-brands fa-github mr-2 text-xl"></i> <span data-i18n="hero_btn_git">Мой GitHub</span>
+                    </a>
+                </div>
             </div>
+
+            <div class="hidden lg:block lg:w-5/12 relative mt-16 lg:mt-0 w-full max-w-lg z-20 cursor-default">
+                <div class="absolute -inset-1 bg-gradient-to-r from-brand-600 to-purple-600 rounded-2xl blur opacity-30 hover:opacity-50 transition duration-500"></div>
+                <div class="ide-mockup relative bg-[#1e1e1e] rounded-xl border border-slate-700 shadow-2xl overflow-hidden">
+                    <div class="flex items-center px-4 py-3 bg-[#252526] border-b border-slate-700/50">
+                        <div class="flex space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        </div>
+                        <div class="mx-auto text-xs text-slate-400 font-mono flex items-center">
+                            <i class="fa-brands fa-cuttlefish text-indigo-400 mr-2"></i> VladEngineer.cpp
+                        </div>
+                    </div>
+                    <div class="p-5 text-[13px] leading-relaxed font-mono text-slate-300 overflow-x-auto">
+                        <p><span class="text-purple-400">#include</span> <span class="text-green-400">&lt;iostream&gt;</span></p>
+                        <p><span class="text-purple-400">#include</span> <span class="text-green-400">&lt;memory&gt;</span></p>
+                        <br>
+                        <p><span class="text-blue-400">class</span> <span class="text-yellow-300">BackendDev</span> {</p>
+                        <p><span class="text-blue-400">private:</span></p>
+                        <p class="ml-4"><span class="text-indigo-400">std::string</span> coffeeType = <span class="text-green-400">"Espresso"</span>;</p>
+                        <p class="ml-4"><span class="text-blue-400">int</span> bugsFixed = <span class="text-orange-400">0</span>;</p>
+                        <br>
+                        <p><span class="text-blue-400">public:</span></p>
+                        <p class="ml-4"><span class="text-blue-400">void</span> <span class="text-yellow-200">startDay</span>() {</p>
+                        <p class="ml-8"><span class="text-blue-400">while</span> (<span class="text-blue-400">true</span>) {</p>
+                        <p class="ml-12"><span class="text-yellow-200">writeCleanCode</span>();</p>
+                        <p class="ml-12"><span class="text-yellow-200">drink</span>(coffeeType);</p>
+                        <p class="ml-12">bugsFixed++;</p>
+                        <p class="ml-8">}</p>
+                        <p class="ml-4">}</p>
+                        <p>};</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </header>
 
-    <section id="skills" class="py-20 relative">
+    <section id="skills" class="py-20 relative z-10 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-up">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Технический стек</h2>
+            <div class="text-center mb-10 fade-up">
+                <h2 data-i18n="skills_title" class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Технический стек</h2>
                 <div class="w-20 h-1.5 bg-brand-600 mx-auto rounded-full mb-6"></div>
-                <p class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg">Языки и инструменты, которые я использую для решения сложных инженерных задач.</p>
+                <p data-i18n="skills_desc" class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg mb-8">Мой арсенал технологий. Я оцениваю навыки не в процентах, а в реальных возможностях решать задачи.</p>
+                
+                <div class="flex flex-wrap justify-center gap-3 mb-12" id="filter-buttons">
+                    <button class="cursor-pointer filter-btn active px-5 py-2 rounded-full bg-brand-600 text-white font-medium transition shadow-md" data-filter="all" data-i18n="filter_all">Все</button>
+                    <button class="cursor-pointer filter-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-brand-500 font-medium transition" data-filter="backend">Backend & System</button>
+                    <button class="cursor-pointer filter-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-brand-500 font-medium transition" data-filter="data">Data & Scripts</button>
+                    <button class="cursor-pointer filter-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-brand-500 font-medium transition" data-filter="frontend">Frontend</button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                <!-- Компилируемые языки -->
-                <div class="glow-card space-y-8 p-8 bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-none fade-up">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-500/20 text-brand-600 dark:text-brand-400 rounded-xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-microchip"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-slate-800 dark:text-white">Enterprise & System</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="skills-grid">
+                <div class="skill-card glow-card p-6 bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 fade-up" data-category="backend">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-brands fa-cuttlefish text-3xl text-indigo-600 dark:text-indigo-400 mr-4"></i>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">C++</h3>
                     </div>
-
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-slate-700 dark:text-slate-300 flex items-center"><i class="fa-brands fa-cuttlefish mr-2"></i> C++</span>
-                            <span class="text-brand-600 dark:text-brand-400 font-bold">90%</span>
-                        </div>
-                        <div class="w-full bg-slate-100 dark:bg-slate-700/50 rounded-full h-3 border border-slate-200 dark:border-slate-600/50 p-0.5">
-                            <div class="bg-gradient-to-r from-brand-500 to-indigo-600 h-full rounded-full relative overflow-hidden" style="width: 90%">
-                                <div class="absolute inset-0 bg-white/20 animate-[slide_2s_linear_infinite]" style="background-image: linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent); background-size: 1rem 1rem;"></div>
-                            </div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div data-i18n="skill_cpp_tag" class="inline-block px-3 py-1 rounded bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold uppercase tracking-wider">Системный уровень</div>
+                        <div class="flex space-x-1" data-i18n-tooltip="skill_level_5" data-tooltip="Уровень: Продвинутый">
+                            <div class="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_5px_rgba(99,102,241,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_5px_rgba(99,102,241,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_5px_rgba(99,102,241,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_5px_rgba(99,102,241,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_5px_rgba(99,102,241,0.5)]"></div>
                         </div>
                     </div>
-
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-slate-700 dark:text-slate-300 font-mono">C# (.NET)</span>
-                            <span class="text-brand-600 dark:text-brand-400 font-bold">85%</span>
-                        </div>
-                        <div class="w-full bg-slate-100 dark:bg-slate-700/50 rounded-full h-3 border border-slate-200 dark:border-slate-600/50 p-0.5">
-                            <div class="bg-gradient-to-r from-brand-500 to-indigo-600 h-full rounded-full" style="width: 85%"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-slate-700 dark:text-slate-300 flex items-center"><i class="fa-brands fa-java mr-2 text-lg"></i> Java</span>
-                            <span class="text-brand-600 dark:text-brand-400 font-bold">95%</span>
-                        </div>
-                        <div class="w-full bg-slate-100 dark:bg-slate-700/50 rounded-full h-3 border border-slate-200 dark:border-slate-600/50 p-0.5">
-                            <div class="bg-gradient-to-r from-brand-500 to-indigo-600 h-full rounded-full" style="width: 95%"></div>
-                        </div>
-                    </div>
+                    <p data-i18n="skill_cpp_desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed"></p>
                 </div>
 
-                <div class="glow-card space-y-8 p-8 bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-none fade-up" style="transition-delay: 100ms;">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-database"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-slate-800 dark:text-white">Scripts & Data</h3>
+                <div class="skill-card glow-card p-6 bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 fade-up" data-category="backend">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-brands fa-microsoft text-3xl text-purple-600 dark:text-purple-400 mr-4"></i>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">C# (.NET)</h3>
                     </div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div data-i18n="skill_cs_tag" class="inline-block px-3 py-1 rounded bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-bold uppercase tracking-wider">Enterprise разработка</div>
+                        <div class="flex space-x-1" data-i18n-tooltip="skill_level_4" data-tooltip="Уровень: Уверенный">
+                            <div class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_5px_rgba(168,85,247,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_5px_rgba(168,85,247,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_5px_rgba(168,85,247,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_5px_rgba(168,85,247,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+                        </div>
+                    </div>
+                    <p data-i18n="skill_cs_desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed"></p>
+                </div>
 
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-slate-700 dark:text-slate-300 flex items-center"><i class="fa-brands fa-python mr-2"></i> Python</span>
-                            <span class="text-purple-600 dark:text-purple-400 font-bold">90%</span>
-                        </div>
-                        <div class="w-full bg-slate-100 dark:bg-slate-700/50 rounded-full h-3 border border-slate-200 dark:border-slate-600/50 p-0.5">
-                            <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full" style="width: 90%"></div>
+                <div class="skill-card glow-card p-6 bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 fade-up" data-category="backend">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-brands fa-java text-3xl text-red-500 dark:text-red-400 mr-4"></i>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">Java</h3>
+                    </div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div data-i18n="skill_java_tag" class="inline-block px-3 py-1 rounded bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-bold uppercase tracking-wider">Core & Spring Boot</div>
+                        <div class="flex space-x-1" data-i18n-tooltip="skill_level_4" data-tooltip="Уровень: Уверенный">
+                            <div class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></div>
                         </div>
                     </div>
+                    <p data-i18n="skill_java_desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed"></p>
+                </div>
 
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="font-semibold text-slate-700 dark:text-slate-300 flex items-center"><i class="fa-solid fa-table-list mr-2"></i> SQL (PostgreSQL, MySQL)</span>
-                            <span class="text-purple-600 dark:text-purple-400 font-bold">95%</span>
-                        </div>
-                        <div class="w-full bg-slate-100 dark:bg-slate-700/50 rounded-full h-3 border border-slate-200 dark:border-slate-600/50 p-0.5">
-                            <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full" style="width: 95%"></div>
+                <div class="skill-card glow-card p-6 bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 fade-up" data-category="data">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-brands fa-python text-3xl text-yellow-500 dark:text-yellow-400 mr-4"></i>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">Python</h3>
+                    </div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div data-i18n="skill_py_tag" class="inline-block px-3 py-1 rounded bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 text-xs font-bold uppercase tracking-wider">Автоматизация & Скрипты</div>
+                        <div class="flex space-x-1" data-i18n-tooltip="skill_level_5" data-tooltip="Уровень: Продвинутый">
+                            <div class="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_5px_rgba(234,179,8,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_5px_rgba(234,179,8,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_5px_rgba(234,179,8,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_5px_rgba(234,179,8,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_5px_rgba(234,179,8,0.5)]"></div>
                         </div>
                     </div>
+                    <p data-i18n="skill_py_desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed"></p>
+                </div>
+
+                <div class="skill-card glow-card p-6 bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 fade-up" data-category="data">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-database text-3xl text-blue-500 dark:text-blue-400 mr-4"></i>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">SQL (PostgreSQL)</h3>
+                    </div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div data-i18n="skill_sql_tag" class="inline-block px-3 py-1 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">Архитектура баз данных</div>
+                        <div class="flex space-x-1" data-i18n-tooltip="skill_level_4" data-tooltip="Уровень: Уверенный">
+                            <div class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_5px_rgba(59,130,246,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_5px_rgba(59,130,246,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_5px_rgba(59,130,246,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_5px_rgba(59,130,246,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+                        </div>
+                    </div>
+                    <p data-i18n="skill_sql_desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed"></p>
+                </div>
+
+                <div class="skill-card glow-card p-6 bg-white dark:bg-slate-800/80 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 fade-up" data-category="frontend">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-brands fa-html5 text-3xl text-orange-500 dark:text-orange-400 mr-4"></i>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">HTML / CSS / JS</h3>
+                    </div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div data-i18n="skill_web_tag" class="inline-block px-3 py-1 rounded bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-bold uppercase tracking-wider">UI/UX интеграция</div>
+                        <div class="flex space-x-1" data-i18n-tooltip="skill_level_3" data-tooltip="Уровень: Базовый">
+                            <div class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_5px_rgba(249,115,22,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_5px_rgba(249,115,22,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_5px_rgba(249,115,22,0.5)]"></div>
+                            <div class="w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+                            <div class="w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+                        </div>
+                    </div>
+                    <p data-i18n="skill_web_desc" class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed"></p>
                 </div>
             </div>
         </div>
@@ -216,67 +532,128 @@
 
     <section id="experience" class="py-20 relative bg-slate-100 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 fade-up">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Мой путь</h2>
+            <div class="text-center mb-10 fade-up">
+                <h2 data-i18n="exp_title" class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Мой путь</h2>
                 <div class="w-20 h-1.5 bg-brand-600 mx-auto rounded-full mb-6"></div>
-                <p class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg">У меня пока нет многолетнего коммерческого опыта. Но у меня есть мощная база, горящие глаза и много написанного кода.</p>
+                <p data-i18n="exp_desc" class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg mb-8">У меня пока нет многолетнего коммерческого опыта. Но у меня есть мощная база, горящие глаза и много написанного кода.</p>
+            </div>
+
+            <div id="github-stats" class="flex flex-wrap justify-center gap-6 mb-16 fade-up">
+                <div class="bg-white dark:bg-slate-800 px-8 py-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 text-center flex-1 max-w-[200px] hover:shadow-md transition">
+                    <div class="text-3xl font-extrabold text-brand-600 dark:text-brand-400 mb-1" id="stat-repos">-</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider" data-i18n="stat_repos">Репозиториев</div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 px-8 py-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 text-center flex-1 max-w-[200px] hover:shadow-md transition">
+                    <div class="text-3xl font-extrabold text-purple-600 dark:text-purple-400 mb-1" id="stat-followers">-</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider" data-i18n="stat_followers">Подписчиков</div>
+                </div>
             </div>
 
             <div class="relative border-l-2 border-slate-300 dark:border-slate-700 ml-4 md:ml-8 max-w-3xl mx-auto">
-
                 <div class="mb-12 relative pl-8 md:pl-12 fade-up group cursor-default">
                     <div class="absolute w-4 h-4 bg-brand-600 rounded-full border-4 border-slate-100 dark:border-slate-900 -left-[9px] top-1.5 group-hover:scale-150 group-hover:bg-brand-400 group-hover:shadow-[0_0_15px_rgba(99,102,241,0.6)] transition-all duration-300"></div>
-                    
                     <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg dark:hover:shadow-brand-500/10 border border-slate-200 dark:border-slate-700 transition-all duration-300 transform group-hover:-translate-x-1">
-                        <span class="text-brand-600 dark:text-brand-400 font-bold text-sm block mb-2 tracking-wider uppercase">Настоящее время</span>
-                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">Активная разработка и Пет-проекты</h3>
-                        <p class="text-slate-600 dark:text-slate-400">Пишу серверные приложения на Java (Spring Boot) и C#. Разбираюсь с архитектурой, API и готовлюсь к реальным боевым задачам. Кодю каждый день, нарабатывая практический опыт.</p>
+                        <span data-i18n="exp_1_tag" class="text-brand-600 dark:text-brand-400 font-bold text-sm block mb-2 tracking-wider uppercase">Настоящее время</span>
+                        <h3 data-i18n="exp_1_title" class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">Активная разработка и Пет-проекты</h3>
+                        <p data-i18n="exp_1_desc" class="text-slate-600 dark:text-slate-400"></p>
                     </div>
                 </div>
 
                 <div class="mb-12 relative pl-8 md:pl-12 fade-up group cursor-default">
                     <div class="absolute w-4 h-4 bg-purple-500 rounded-full border-4 border-slate-100 dark:border-slate-900 -left-[9px] top-1.5 group-hover:scale-150 group-hover:bg-purple-400 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.6)] transition-all duration-300"></div>
-                    
                     <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg dark:hover:shadow-purple-500/10 border border-slate-200 dark:border-slate-700 transition-all duration-300 transform group-hover:-translate-x-1">
-                        <span class="text-purple-600 dark:text-purple-400 font-bold text-sm block mb-2 tracking-wider uppercase">Этап 2</span>
-                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">Базы данных и Python-скрипты</h3>
-                        <p class="text-slate-600 dark:text-slate-400">Углубился в работу с данными. Освоил проектирование реляционных БД (PostgreSQL, MySQL) и оптимизацию запросов. Параллельно писал парсеры и автоматизировал рутину на Python.</p>
+                        <span data-i18n="exp_2_tag" class="text-purple-600 dark:text-purple-400 font-bold text-sm block mb-2 tracking-wider uppercase">Этап 2</span>
+                        <h3 data-i18n="exp_2_title" class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">Базы данных и Python-скрипты</h3>
+                        <p data-i18n="exp_2_desc" class="text-slate-600 dark:text-slate-400"></p>
                     </div>
                 </div>
 
                 <div class="relative pl-8 md:pl-12 fade-up group cursor-default">
                     <div class="absolute w-4 h-4 bg-slate-400 rounded-full border-4 border-slate-100 dark:border-slate-900 -left-[9px] top-1.5 group-hover:scale-150 group-hover:bg-slate-300 group-hover:shadow-[0_0_15px_rgba(148,163,184,0.6)] transition-all duration-300"></div>
-                    
                     <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-lg dark:hover:shadow-slate-500/10 border border-slate-200 dark:border-slate-700 transition-all duration-300 transform group-hover:-translate-x-1">
-                        <span class="text-slate-500 dark:text-slate-400 font-bold text-sm block mb-2 tracking-wider uppercase">С чего всё началось</span>
-                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">Хардкорная база на C++</h3>
-                        <p class="text-slate-600 dark:text-slate-400">Начал свой путь не с легких конструкторов сайтов, а с фундамента. Изучал C++, алгоритмы, структуры данных и то, как программы взаимодействуют с железом и памятью.</p>
+                        <span data-i18n="exp_3_tag" class="text-slate-500 dark:text-slate-400 font-bold text-sm block mb-2 tracking-wider uppercase">С чего всё началось</span>
+                        <h3 data-i18n="exp_3_title" class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">Хардкорная база на C++</h3>
+                        <p data-i18n="exp_3_desc" class="text-slate-600 dark:text-slate-400"></p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="projects" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-up">
+                <h2 data-i18n="projects_title" class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Мои проекты</h2>
+                <div class="w-20 h-1.5 bg-brand-600 mx-auto rounded-full mb-6"></div>
+                <p data-i18n="projects_desc" class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg">Код, который я пишу. Эти репозитории подгружаются напрямую с моего GitHub.</p>
+            </div>
+            
+            <div id="github-projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="skeleton-card bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 animate-pulse">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
+                        <div class="w-6 h-6 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    </div>
+                    <div class="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4 mb-4"></div>
+                    <div class="h-4 bg-slate-200 dark:bg-slate-700 rounded w-full mb-2"></div>
+                    <div class="h-4 bg-slate-200 dark:bg-slate-700 rounded w-5/6 mb-6"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="w-16 h-6 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="flex space-x-3">
+                            <div class="w-10 h-4 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                            <div class="w-10 h-4 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skeleton-card bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 animate-pulse hidden md:block">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-lg"></div><div class="w-6 h-6 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    </div>
+                    <div class="h-6 bg-slate-200 dark:bg-slate-700 rounded w-2/3 mb-4"></div>
+                    <div class="h-4 bg-slate-200 dark:bg-slate-700 rounded w-full mb-2"></div>
+                    <div class="h-4 bg-slate-200 dark:bg-slate-700 rounded w-4/5 mb-6"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="w-16 h-6 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="flex space-x-3"><div class="w-10 h-4 bg-slate-200 dark:bg-slate-700 rounded"></div></div>
+                    </div>
+                </div>
+                <div class="skeleton-card bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 animate-pulse hidden lg:block">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-lg"></div><div class="w-6 h-6 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    </div>
+                    <div class="h-6 bg-slate-200 dark:bg-slate-700 rounded w-1/2 mb-4"></div>
+                    <div class="h-4 bg-slate-200 dark:bg-slate-700 rounded w-full mb-2"></div>
+                    <div class="h-4 bg-slate-200 dark:bg-slate-700 rounded w-5/6 mb-6"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="w-16 h-6 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="flex space-x-3"><div class="w-10 h-4 bg-slate-200 dark:bg-slate-700 rounded"></div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="contact" class="py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 fade-up">
-            <div class="bg-brand-600 dark:bg-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row border border-transparent dark:border-slate-700 relative overflow-hidden">
-                
+            <div class="bg-brand-600 dark:bg-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row border border-transparent dark:border-slate-700 relative">
                 <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-white/10 dark:bg-brand-500/10 blur-2xl"></div>
                 
                 <div class="p-10 lg:p-16 lg:w-5/12 text-white flex flex-col justify-center relative z-10">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Связаться со мной</h2>
-                    <p class="text-indigo-100 dark:text-slate-300 mb-10 text-lg">
+                    <h2 data-i18n="contact_title" class="text-3xl md:text-4xl font-bold mb-6">Связаться со мной</h2>
+                    <p data-i18n="contact_desc" class="text-indigo-100 dark:text-slate-300 mb-10 text-lg">
                         Готов обсудить стажировку, джуниорскую позицию или интересный пет-проект. Оставьте сообщение, и оно придет мне напрямую в Telegram.
                     </p>
                     <div class="space-y-6">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-white/20 dark:bg-slate-700 rounded-full flex items-center justify-center text-xl backdrop-blur-sm">
+                        <div class="flex items-center space-x-4 cursor-pointer group" onclick="copyContact()">
+                            <div class="w-12 h-12 bg-white/20 dark:bg-slate-700 rounded-full flex items-center justify-center text-xl backdrop-blur-sm group-hover:scale-110 transition">
                                 <i class="fa-brands fa-telegram"></i>
                             </div>
                             <div>
                                 <p class="text-sm text-indigo-100 dark:text-slate-400">Telegram</p>
-                                <p class="font-bold text-lg">@Whaat1sLove</p>
+                                <div class="flex items-center space-x-2">
+                                    <p class="font-bold text-lg group-hover:text-brand-300 transition">@Whaat1sLove</p>
+                                    <i class="fa-regular fa-copy text-sm opacity-0 group-hover:opacity-100 transition text-brand-300"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -285,15 +662,15 @@
                 <div class="bg-white dark:bg-slate-900 p-10 lg:p-16 lg:w-7/12 relative z-10">
                     <form id="vladContactForm" class="space-y-6">
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Ваше имя или контакт</label>
-                            <input type="text" id="name" required placeholder="Например: Иван (тг: @ivan)" class="w-full px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 dark:focus:ring-brand-900 transition outline-none">
+                            <label data-i18n="contact_label_name" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Ваше имя или контакт</label>
+                            <input type="text" id="name" required data-i18n-placeholder="contact_ph_name" placeholder="Например: Иван (тг: @ivan)" class="w-full px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 dark:focus:ring-brand-900 transition outline-none">
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Сообщение</label>
-                            <textarea id="message" rows="4" required placeholder="Привет, Влад! Мы ищем классного разработчика..." class="w-full px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 dark:focus:ring-brand-900 transition outline-none resize-none"></textarea>
+                            <label data-i18n="contact_label_msg" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Сообщение</label>
+                            <textarea id="message" rows="4" required data-i18n-placeholder="contact_ph_msg" placeholder="Привет, Влад! Мы ищем классного разработчика..." class="w-full px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 dark:focus:ring-brand-900 transition outline-none resize-none"></textarea>
                         </div>
-                        <button type="submit" id="submitBtn" class="w-full bg-brand-600 dark:bg-brand-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/30 hover:bg-brand-700 dark:hover:bg-brand-600 transition transform hover:-translate-y-0.5 flex justify-center items-center">
-                            <span>Отправить сообщение</span>
+                        <button type="submit" id="submitBtn" class="cursor-pointer w-full bg-brand-600 dark:bg-brand-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/30 hover:bg-brand-700 dark:hover:bg-brand-600 transition transform hover:-translate-y-0.5 flex justify-center items-center">
+                            <span id="submitBtnText" data-i18n="contact_btn_send">Отправить сообщение</span>
                             <i id="loadingIcon" class="fa-solid fa-circle-notch fa-spin ml-2 hidden"></i>
                         </button>
                     </form>
@@ -303,10 +680,10 @@
     </section>
 
     <footer class="bg-slate-900 text-slate-400 py-8 text-center border-t border-slate-800">
-        <p>&copy; 2026 Vlad.Dev. Все права защищены.</p>
+        <p data-i18n="footer_copy">&copy; 2026 Vlad.Dev. Все права защищены.</p>
     </footer>
 
-    <button id="scrollTopBtn" onclick="window.scrollTo(0,0)" class="fixed bottom-5 left-5 bg-slate-800 dark:bg-brand-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center transform translate-y-24 opacity-0 transition-all duration-300 z-50 hover:bg-slate-700 dark:hover:bg-brand-500 border border-slate-700 dark:border-transparent">
+    <button id="scrollTopBtn" onclick="window.scrollTo(0,0)" class="cursor-pointer fixed bottom-5 left-5 bg-slate-800 dark:bg-brand-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center transform translate-y-24 opacity-0 transition-all duration-300 z-50 hover:bg-slate-700 dark:hover:bg-brand-500 border border-slate-700 dark:border-transparent">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
@@ -320,72 +697,402 @@
     </div>
 
     <script>
-        const TELEGRAM_BOT_TOKEN = 'Токен_Вашего_Бота'; // Можно получить тут: @BotFather
-        const TELEGRAM_CHAT_ID = 'xxxxxxxxxx';  // Ваш телеграмм ID, можно узнать тут: @userinfobot
+        let isSoundOn = false;
+        const soundToggle = document.getElementById('soundToggle');
+        const soundOnIcon = document.getElementById('soundIconOn');
+        const soundOffIcon = document.getElementById('soundIconOff');
+        
+        const mSoundIconOn = document.getElementById('mSoundIconOn');
+        const mSoundIconOff = document.getElementById('mSoundIconOff');
+        const mobileSoundToggle = document.getElementById('mobileSoundToggle');
+        
+        function toggleSoundLogic() {
+            isSoundOn = !isSoundOn;
+            
+            soundOnIcon.classList.toggle('hidden');
+            soundOffIcon.classList.toggle('hidden');
+            
+            mSoundIconOn.classList.toggle('hidden');
+            mSoundIconOff.classList.toggle('hidden');
+            
+            if(isSoundOn) playBeep(800, 'sine', 0.05, 0.05);
+        }
+
+        soundToggle.addEventListener('click', toggleSoundLogic);
+        mobileSoundToggle.addEventListener('click', toggleSoundLogic);
+
+        function playBeep(freq, type, duration, vol=0.02) {
+            if(!isSoundOn) return;
+            try {
+                const actx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = actx.createOscillator();
+                const gain = actx.createGain();
+                osc.type = type;
+                osc.frequency.value = freq;
+                osc.connect(gain);
+                gain.connect(actx.destination);
+                gain.gain.setValueAtTime(vol, actx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + duration);
+                osc.start();
+                osc.stop(actx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        document.querySelectorAll('button, a, .cursor-pointer, .filter-btn').forEach(el => {
+            el.addEventListener('mouseenter', () => playBeep(1200, 'sine', 0.05, 0.005));
+            el.addEventListener('click', () => playBeep(600, 'triangle', 0.1, 0.02));
+        });
+
+        function copyContact() {
+            navigator.clipboard.writeText('@Whaat1sLove').then(() => {
+                showToast('Telegram скопирован!');
+                playBeep(900, 'sine', 0.1, 0.05);
+            });
+        }
+
+        const customCursor = document.getElementById('custom-cursor');
+        const progressBar = document.getElementById('scrollProgressBar');
+        let isDestroyMode = false;
+
+        window.addEventListener('scroll', () => {
+            const scrolledPx = document.documentElement.scrollTop;
+            const scrollableHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolledPercentage = scrollableHeight > 0 ? (scrolledPx / scrollableHeight) * 100 : 0;
+            progressBar.style.width = scrolledPercentage + '%';
+        });
+
+        if (window.matchMedia("(pointer: fine)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                if (isDestroyMode) {
+                    customCursor.style.display = 'none';
+                    return;
+                }
+                customCursor.style.left = e.clientX + 'px';
+                customCursor.style.top = e.clientY + 'px';
+            });
+            document.addEventListener('mouseover', (e) => {
+                if (isDestroyMode) return;
+
+                if (e.target.closest('input, textarea, canvas')) {
+                    customCursor.style.opacity = '0';
+                } else {
+                    customCursor.style.opacity = '1';
+                    if (e.target.closest('a, button, .cursor-pointer, .skill-card, .glow-card, .glitch-wrapper, .magnetic-btn')) {
+                        customCursor.classList.add('cursor-hover');
+                    } else {
+                        customCursor.classList.remove('cursor-hover');
+                    }
+                }
+            });
+        }
+
+        const blob1 = document.getElementById('blob1');
+        const blob2 = document.getElementById('blob2');
+        if (blob1 && blob2 && window.matchMedia("(pointer: fine)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                blob1.style.transform = `translate(${x * 50}px, ${y * 50}px)`;
+                blob2.style.transform = `translate(${-x * 50}px, ${-y * 50}px)`;
+            });
+        }
+
+        const magnetBtns = document.querySelectorAll('.magnetic-wrap');
+        magnetBtns.forEach(wrap => {
+            const btn = wrap.querySelector('.magnetic-btn');
+            wrap.addEventListener('mousemove', (e) => {
+                const rect = wrap.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            wrap.addEventListener('mouseleave', () => { btn.style.transform = `translate(0px, 0px)`; });
+        });
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        });
+
+        mobileNavItems.forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenuBtn.querySelector('i').classList.remove('fa-xmark');
+                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            });
+        });
+
+        const netCanvas = document.getElementById('networkCanvas');
+        if (netCanvas) {
+            const netCtx = netCanvas.getContext('2d');
+            let particles = [];
+            const numParticles = window.innerWidth < 768 ? 40 : 80;
+
+            function resizeNetworkCanvas() {
+                netCanvas.width = window.innerWidth;
+                netCanvas.height = document.getElementById('home').offsetHeight;
+            }
+            window.addEventListener('resize', resizeNetworkCanvas);
+            resizeNetworkCanvas();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * netCanvas.width;
+                    this.y = Math.random() * netCanvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.5; 
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = Math.random() * 2 + 1;
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if (this.x < 0 || this.x > netCanvas.width) this.vx = -this.vx;
+                    if (this.y < 0 || this.y > netCanvas.height) this.vy = -this.vy;
+                }
+                draw() {
+                    netCtx.beginPath();
+                    netCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    netCtx.fillStyle = document.documentElement.classList.contains('dark') ? 'rgba(99, 102, 241, 0.4)' : 'rgba(99, 102, 241, 0.2)';
+                    netCtx.fill();
+                }
+            }
+            for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+
+            function animateNetwork() {
+                netCtx.clearRect(0, 0, netCanvas.width, netCanvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < 120) {
+                            netCtx.beginPath();
+                            const opacity = 1 - (distance / 120);
+                            netCtx.strokeStyle = document.documentElement.classList.contains('dark') 
+                                ? `rgba(99, 102, 241, ${opacity * 0.3})` : `rgba(99, 102, 241, ${opacity * 0.15})`;
+                            netCtx.lineWidth = 1;
+                            netCtx.moveTo(particles[i].x, particles[i].y);
+                            netCtx.lineTo(particles[j].x, particles[j].y);
+                            netCtx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animateNetwork);
+            }
+            animateNetwork();
+        }
+
+        const bootScreen = document.getElementById('bootScreen');
+        const bootTerminal = document.getElementById('bootTerminal');
+        const bodyElement = document.getElementById('bodyElement');
+
+        if (!sessionStorage.getItem('bootScreenShown')) {
+            const bootLines = [
+                "> Инициализация системы... OK",
+                "> Загрузка модулей памяти... OK",
+                "> Подключение к серверу данных... Установлено",
+                "> Проверка прав доступа...",
+                "> root@vlad-dev:~ Доступ разрешен.",
+                "> Добро пожаловать, Admin."
+            ];
+            let bootIndex = 0;
+            function printBootLine() {
+                if (bootIndex < bootLines.length) {
+                    const p = document.createElement('div');
+                    p.textContent = bootLines[bootIndex];
+                    bootTerminal.appendChild(p);
+                    bootIndex++;
+                    playBeep(1000, 'square', 0.05, 0.01); 
+                    setTimeout(printBootLine, 200 + Math.random() * 400);
+                } else {
+                    setTimeout(() => {
+                        bootScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            bootScreen.style.display = 'none';
+                            bodyElement.classList.remove('overflow-hidden'); 
+                            sessionStorage.setItem('bootScreenShown', 'true');
+                        }, 1000); 
+                    }, 1000);
+                }
+            }
+            setTimeout(printBootLine, 500);
+        } else {
+            bootScreen.style.display = 'none';
+            bodyElement.classList.remove('overflow-hidden');
+        }
+
+        const translations = {
+            ru: {
+                page_title: "Влад IT - Инженер-программист",
+                nav_home: "Главная", nav_skills: "Стек", nav_path: "Мой путь", nav_projects: "Проекты", nav_contact: "Связаться",
+                hero_role: "Software Engineer", hero_title1: "Создаю софт, который",
+                hero_desc: "Привет, я Влад. Я специализируюсь на <span class='hl-code'>backend</span>-разработке. Пишу надежный, быстрый и масштабируемый код на <span class='hl-code'>C++</span>, <span class='hl-code'>C#</span>, <span class='hl-code'>Java</span> и <span class='hl-code'>Python</span>.",
+                hero_btn_path: "Посмотреть мой путь", hero_btn_git: "Мой GitHub",
+                skills_title: "Технический стек", skills_desc: "Мой арсенал технологий. Я оцениваю навыки не в процентах, а в реальных возможностях решать задачи.",
+                filter_all: "Все",
+                skill_cpp_tag: "Системный уровень", skill_cpp_desc: "Пишу высокопроизводительный код на <span class='hl-code'>C++</span>, работаю с памятью напрямую, применяю сложные структуры данных и многопоточность.",
+                skill_cs_tag: "Enterprise разработка", skill_cs_desc: "Создаю микросервисы на <span class='hl-code'>C# (.NET)</span>. Глубокое понимание ООП и паттернов проектирования.",
+                skill_java_tag: "Core & Spring Boot", skill_java_desc: "Проектирую <span class='hl-code'>REST API</span>, работаю с бизнес-логикой и транзакциями на <span class='hl-code'>Java</span>.",
+                skill_py_tag: "Автоматизация & Скрипты", skill_py_desc: "Оптимизирую рутину, пишу быстрые парсеры и ботов на <span class='hl-code'>Python</span>. Швейцарский нож для работы с данными.",
+                skill_sql_tag: "Архитектура баз данных", skill_sql_desc: "Оптимизирую сложные запросы, работаю с индексами. Проектирую нормализованные структуры БД в <span class='hl-code'>PostgreSQL</span>.",
+                skill_web_tag: "UI/UX интеграция", skill_web_desc: "Понимаю, как бэкенд общается с фронтендом. Уверенно работаю с <span class='hl-code'>DOM</span>, <span class='hl-code'>Tailwind</span> и современным UI.",
+                exp_title: "Мой путь", exp_desc: "У меня пока нет многолетнего коммерческого опыта. Но у меня есть мощная база, горящие глаза и много написанного кода.",
+                exp_1_tag: "Настоящее время", exp_1_title: "Активная разработка и Пет-проекты", exp_1_desc: "Пишу серверные приложения на <span class='hl-code'>Java (Spring Boot)</span> и <span class='hl-code'>C#</span>. Разбираюсь с архитектурой, API и готовлюсь к реальным задачам.",
+                exp_2_tag: "Этап 2", exp_2_title: "Базы данных и Python-скрипты", exp_2_desc: "Углубился в работу с данными. Освоил проектирование реляционных БД (<span class='hl-code'>PostgreSQL</span>, <span class='hl-code'>MySQL</span>) и автоматизировал рутину на <span class='hl-code'>Python</span>.",
+                exp_3_tag: "С чего всё началось", exp_3_title: "Хардкорная база на C++", exp_3_desc: "Изучал <span class='hl-code'>C++</span>, алгоритмы, структуры данных и то, как программы взаимодействуют с железом и памятью.",
+                projects_title: "Мои проекты", projects_desc: "Код, который я пишу. Эти репозитории подгружаются напрямую с моего GitHub.", projects_loading: "Загрузка проектов с GitHub...",
+                contact_title: "Связаться со мной", contact_desc: "Готов обсудить стажировку, джуниорскую позицию или интересный пет-проект. Оставьте сообщение, и оно придет мне напрямую в Telegram.",
+                contact_label_name: "Ваше имя или контакт", contact_ph_name: "Например: Иван (тг: @ivan)",
+                contact_label_msg: "Сообщение", contact_ph_msg: "Привет, Влад! Мы ищем классного разработчика...",
+                contact_btn_send: "Отправить сообщение",
+                footer_copy: "© 2026 Vlad.Dev. Все права защищены.",
+                term_header: "user@vlad-dev: ~ (Нажми ESC или `~` чтобы закрыть)", term_welcome: "Введите 'help' для списка команд. Введите 'fetch projects' для загрузки гитхаба.",
+                term_hint_1: "Нажми", term_hint_2: "для консоли",
+                type_1: "работает идеально.", type_2: "выдерживает нагрузки.", type_3: "решает проблемы.",
+                tooltip_term: "Открыть консоль", tooltip_sound: "Переключить звук", tooltip_theme: "Переключить тему",
+                skill_level_5: "Уровень: Продвинутый (5/5)", skill_level_4: "Уровень: Уверенный (4/5)", skill_level_3: "Уровень: Базовый (3/5)",
+                form_success: "Успешно отправлено!", form_error: "Произошла ошибка!",
+                stat_repos: "Репозиториев", stat_followers: "Подписчиков"
+            },
+            en: {
+                page_title: "Vlad IT - Software Engineer",
+                nav_home: "Home", nav_skills: "Stack", nav_path: "My Path", nav_projects: "Projects", nav_contact: "Contact",
+                hero_role: "Software Engineer", hero_title1: "I build software that",
+                hero_desc: "Hi, I'm Vlad. I specialize in <span class='hl-code'>backend</span> development. I write reliable, fast code in <span class='hl-code'>C++</span>, <span class='hl-code'>C#</span>, <span class='hl-code'>Java</span>, and <span class='hl-code'>Python</span>.",
+                hero_btn_path: "See my path", hero_btn_git: "My GitHub",
+                skills_title: "Tech Stack", skills_desc: "My arsenal of technologies. I evaluate skills not in percentages, but in real problem-solving capabilities.",
+                filter_all: "All",
+                skill_cpp_tag: "System Level", skill_cpp_desc: "I write high-performance code in <span class='hl-code'>C++</span>, work with raw memory, use complex data structures and multithreading.",
+                skill_cs_tag: "Enterprise Dev", skill_cs_desc: "I build microservices in <span class='hl-code'>C# (.NET)</span>. Deep understanding of OOP and design patterns.",
+                skill_java_tag: "Core & Spring Boot", skill_java_desc: "I design <span class='hl-code'>REST APIs</span>, work with business logic and transactions in <span class='hl-code'>Java</span>.",
+                skill_py_tag: "Automation & Scripts", skill_py_desc: "I optimize routines, write fast parsers and bots in <span class='hl-code'>Python</span>. A Swiss army knife for data.",
+                skill_sql_tag: "DB Architecture", skill_sql_desc: "I optimize complex queries, work with indexes. I design normalized structures in <span class='hl-code'>PostgreSQL</span>.",
+                skill_web_tag: "UI/UX Integration", skill_web_desc: "I understand how backend communicates with frontend. I confidently work with <span class='hl-code'>DOM</span> and <span class='hl-code'>Tailwind</span>.",
+                exp_title: "My Path", exp_desc: "I don't have years of commercial experience yet. But I have a strong foundation, burning eyes, and a lot of written code.",
+                exp_1_tag: "Present Time", exp_1_title: "Active Development & Pet Projects", exp_1_desc: "Writing server applications in <span class='hl-code'>Java (Spring Boot)</span> and <span class='hl-code'>C#</span>. Understanding architecture, APIs, and preparing for real combat tasks.",
+                exp_2_tag: "Phase 2", exp_2_title: "Databases & Python Scripts", exp_2_desc: "Mastered the design of relational databases (<span class='hl-code'>PostgreSQL</span>, <span class='hl-code'>MySQL</span>) and automated routines in <span class='hl-code'>Python</span>.",
+                exp_3_tag: "Where it all started", exp_3_title: "Hardcore C++ Foundation", exp_3_desc: "Studied <span class='hl-code'>C++</span>, algorithms, data structures, and how programs interact with hardware and memory.",
+                projects_title: "My Projects", projects_desc: "The code I write. These repositories are fetched directly from my GitHub.", projects_loading: "Loading projects from GitHub...",
+                contact_title: "Get in Touch", contact_desc: "Ready to discuss an internship, junior position, or an interesting pet project. Leave a message, and it will come directly to my Telegram.",
+                contact_label_name: "Your Name or Contact", contact_ph_name: "E.g., John (tg: @john)",
+                contact_label_msg: "Message", contact_ph_msg: "Hi Vlad! We are looking for a cool developer...",
+                contact_btn_send: "Send Message",
+                footer_copy: "© 2026 Vlad.Dev. All rights reserved.",
+                term_header: "user@vlad-dev: ~ (Press ESC or `~` to close)", term_welcome: "Type 'help' for a list of commands. Type 'fetch projects' to load github.",
+                term_hint_1: "Press", term_hint_2: "for console",
+                type_1: "works perfectly.", type_2: "handles high load.", type_3: "solves problems.",
+                tooltip_term: "Open Console", tooltip_sound: "Toggle Sound", tooltip_theme: "Toggle Theme",
+                skill_level_5: "Level: Advanced (5/5)", skill_level_4: "Level: Confident (4/5)", skill_level_3: "Level: Basic (3/5)",
+                form_success: "Successfully sent!", form_error: "An error occurred!",
+                stat_repos: "Repositories", stat_followers: "Followers"
+            }
+        };
+
+        let currentLang = localStorage.getItem('site_lang') || 'ru';
+        const langToggleBtn = document.getElementById('langToggleBtn');
+        const mobileLangToggleBtn = document.getElementById('mobileLangToggleBtn');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('site_lang', lang);
+            
+            const displayLang = lang === 'ru' ? 'EN' : 'RU';
+            langToggleBtn.textContent = displayLang;
+            mobileLangToggleBtn.textContent = displayLang;
+
+            document.getElementById('pageTitle').textContent = translations[lang].page_title;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key]; 
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    el.setAttribute('placeholder', translations[lang][key]);
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-tooltip]').forEach(el => {
+                const key = el.getAttribute('data-i18n-tooltip');
+                if (translations[lang][key]) {
+                    el.setAttribute('data-tooltip', translations[lang][key]);
+                }
+            });
+        }
+
+        setLanguage(currentLang);
+
+        function toggleLangLogic() {
+            const newLang = currentLang === 'ru' ? 'en' : 'ru';
+            setLanguage(newLang);
+        }
+
+        langToggleBtn.addEventListener('click', toggleLangLogic);
+        mobileLangToggleBtn.addEventListener('click', toggleLangLogic);
 
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeIconDark = document.getElementById('themeIconDark');
         const themeIconLight = document.getElementById('themeIconLight');
         
-        function isDark() {
-            return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        }
-
-        if (isDark()) {
-            document.documentElement.classList.add('dark');
-            themeIconDark.classList.add('hidden');
-            themeIconLight.classList.remove('hidden');
-        }
-
-        themeToggleBtn.addEventListener('click', () => {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-                themeIconDark.classList.remove('hidden');
-                themeIconLight.classList.add('hidden');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        const mThemeIconDark = document.getElementById('mThemeIconDark');
+        const mThemeIconLight = document.getElementById('mThemeIconLight');
+        
+        function isDark() { return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches); }
+        function setTheme(dark) {
+            if (dark) {
+                document.documentElement.classList.add('dark'); localStorage.theme = 'dark';
+                themeIconDark.classList.add('hidden'); themeIconLight.classList.remove('hidden');
+                mThemeIconDark.classList.add('hidden'); mThemeIconLight.classList.remove('hidden');
             } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-                themeIconDark.classList.add('hidden');
-                themeIconLight.classList.remove('hidden');
+                document.documentElement.classList.remove('dark'); localStorage.theme = 'light';
+                themeIconDark.classList.remove('hidden'); themeIconLight.classList.add('hidden');
+                mThemeIconDark.classList.remove('hidden'); mThemeIconLight.classList.add('hidden');
             }
-        });
+        }
+        if (isDark()) setTheme(true);
 
-        const phrases = ["работает идеально.", "выдерживает нагрузки.", "решает проблемы."];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
+        function toggleThemeLogic() {
+            setTheme(!document.documentElement.classList.contains('dark'));
+        }
+
+        themeToggleBtn.addEventListener('click', toggleThemeLogic);
+        mobileThemeToggle.addEventListener('click', toggleThemeLogic);
+
+        let phraseIndex = 0; let charIndex = 0; let isDeleting = false;
         const typewriterElement = document.getElementById('typewriter');
 
         function typeEffect() {
-            const currentPhrase = phrases[phraseIndex];
-            if (isDeleting) {
-                typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-            }
+            const currentPhrases = [ translations[currentLang].type_1, translations[currentLang].type_2, translations[currentLang].type_3 ];
+            const currentPhrase = currentPhrases[phraseIndex];
+            
+            if (isDeleting) { typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1); charIndex--; } 
+            else { typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1); charIndex++; }
 
             let typeSpeed = isDeleting ? 40 : 80;
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                typeSpeed = 2000; 
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500; 
-            }
+            if (!isDeleting && charIndex === currentPhrase.length) { typeSpeed = 2000; isDeleting = true; } 
+            else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % currentPhrases.length; typeSpeed = 500; }
             setTimeout(typeEffect, typeSpeed);
         }
         setTimeout(typeEffect, 1000);
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1 }); 
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1 }); 
         document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
 
         const scrollTopBtn = document.getElementById('scrollTopBtn');
@@ -395,12 +1102,22 @@
         });
 
         const form = document.getElementById('vladContactForm');
+        const nameInput = document.getElementById('name');
+        const messageInput = document.getElementById('message');
         const submitBtn = document.getElementById('submitBtn');
+        const submitBtnText = document.getElementById('submitBtnText');
         const loadingIcon = document.getElementById('loadingIcon');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         const toastIconBox = document.getElementById('toastIconBox');
         const toastIcon = document.getElementById('toastIcon');
+        let spamCooldownTimer = null;
+
+        if (localStorage.getItem('vlad_draft_name')) nameInput.value = localStorage.getItem('vlad_draft_name');
+        if (localStorage.getItem('vlad_draft_msg')) messageInput.value = localStorage.getItem('vlad_draft_msg');
+
+        nameInput.addEventListener('input', () => localStorage.setItem('vlad_draft_name', nameInput.value));
+        messageInput.addEventListener('input', () => localStorage.setItem('vlad_draft_msg', messageInput.value));
 
         function showToast(message, isError = false) {
             toastMessage.textContent = message;
@@ -415,54 +1132,684 @@
             setTimeout(() => toast.classList.add('translate-y-24', 'opacity-0'), 4000);
         }
 
+        function updateFormCooldown() {
+            const lastSubmit = localStorage.getItem('lastFormSubmit');
+            if(lastSubmit) {
+                const diff = Date.now() - parseInt(lastSubmit);
+                if(diff < 60000) { 
+                    const secLeft = Math.ceil((60000 - diff) / 1000);
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    submitBtnText.textContent = `(${secLeft}s)`;
+                    if(!spamCooldownTimer) spamCooldownTimer = setInterval(updateFormCooldown, 1000);
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    submitBtnText.textContent = translations[currentLang].contact_btn_send;
+                    clearInterval(spamCooldownTimer);
+                    spamCooldownTimer = null;
+                }
+            }
+        }
+        updateFormCooldown();
+
         form.addEventListener('submit', async function(event) {
             event.preventDefault(); 
-            
-            const name = document.getElementById('name').value;
-            const messageText = document.getElementById('message').value;
-
-            const textForTelegram = `🚀 *Новая заявка с сайта!*\n\n👤 *От кого:* ${name}\n💬 *Сообщение:* ${messageText}`;
+            const name = nameInput.value;
+            const messageText = messageInput.value;
 
             submitBtn.disabled = true;
             submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
             loadingIcon.classList.remove('hidden');
 
             try {
-                if (TELEGRAM_BOT_TOKEN === 'ТВОЙ_ТОКЕН_ОТ_BOTFATHER' || !TELEGRAM_BOT_TOKEN) {
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // Ждем секунду
-                    showToast("Успех! (Но токен пока не настроен)");
-                    form.reset();
-                    return;
-                }
+                const BACKEND_URL = 'https://vlad-tg-api.ligorskiyv.workers.dev';
 
-                const API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-                
-                const response = await fetch(API_URL, {
+                const response = await fetch(BACKEND_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: textForTelegram,
-                        parse_mode: 'Markdown' 
-                    })
+                    body: JSON.stringify({ name: name, message: messageText })
                 });
 
-                if (response.ok) {
-                    showToast("Успешно отправлено!");
+                if (response.ok) { 
+                    showToast(translations[currentLang].form_success); 
                     form.reset(); 
-                } else {
-                    throw new Error("Ошибка отправки");
-                }
+                    
+                    localStorage.removeItem('vlad_draft_name');
+                    localStorage.removeItem('vlad_draft_msg');
 
+                    localStorage.setItem('lastFormSubmit', Date.now());
+                    updateFormCooldown();
+                } else { throw new Error("API Error"); }
             } catch (error) {
-                console.error(error);
-                showToast("Произошла ошибка!", true);
-            } finally {
+                console.error(error); showToast(translations[currentLang].form_error, true);
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            } finally {
                 loadingIcon.classList.add('hidden');
             }
         });
+
+        const sections = document.querySelectorAll('header, section');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        const scrollSpyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navItems.forEach(link => {
+                        link.classList.remove('text-brand-600', 'dark:text-brand-400');
+                        if (link.getAttribute('href') === `#${id}`) link.classList.add('text-brand-600', 'dark:text-brand-400');
+                    });
+                }
+            });
+        }, { threshold: 0.3 }); 
+        sections.forEach(section => scrollSpyObserver.observe(section));
+
+        if (typeof VanillaTilt !== 'undefined') {
+            VanillaTilt.init(document.querySelectorAll(".skill-card, .ide-mockup"), { max: 10, speed: 400, glare: true, "max-glare": 0.15, scale: 1.02 });
+        }
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const skillCards = document.querySelectorAll('.skill-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-brand-600', 'text-white');
+                    b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                });
+                btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                btn.classList.add('bg-brand-600', 'text-white');
+
+                const filterValue = btn.getAttribute('data-filter');
+                skillCards.forEach(card => {
+                    card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                    card.style.transform = 'scale(0.8)';
+                    card.style.opacity = '0';
+                    setTimeout(() => {
+                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                            card.style.display = 'block';
+                            setTimeout(() => { card.style.transform = 'scale(1)'; card.style.opacity = '1'; }, 50);
+                        } else { card.style.display = 'none'; }
+                    }, 300); 
+                });
+            });
+        });
+
+        const githubUsername = 'vladislavligorskij27-crypto';
+        const projectsGrid = document.getElementById('github-projects-grid');
+
+        async function fetchGitHubStats() {
+            const cacheKey = 'github_stats_vlad';
+            const cacheTimeKey = 'github_stats_vlad_time';
+            const cachedData = localStorage.getItem(cacheKey);
+            const cacheTime = localStorage.getItem(cacheTimeKey);
+            const now = new Date().getTime();
+
+            const renderStats = (data) => {
+                document.getElementById('stat-repos').textContent = data.public_repos;
+                document.getElementById('stat-followers').textContent = data.followers;
+            };
+
+            if (cachedData && cacheTime && (now - parseInt(cacheTime) < 7200000)) { 
+                renderStats(JSON.parse(cachedData)); 
+                return; 
+            }
+
+            try {
+                const response = await fetch(`https://api.github.com/users/${githubUsername}`);
+                if (!response.ok) throw new Error('Network error');
+                const data = await response.json();
+                const statsToSave = { public_repos: data.public_repos, followers: data.followers };
+                
+                localStorage.setItem(cacheKey, JSON.stringify(statsToSave)); 
+                localStorage.setItem(cacheTimeKey, now.toString());
+                renderStats(statsToSave);
+            } catch (error) {
+                console.error('GitHub stats error:', error);
+                if (cachedData) renderStats(JSON.parse(cachedData));
+            }
+        }
+        fetchGitHubStats();
+
+        function renderGitHubProjects(repos) {
+            projectsGrid.innerHTML = ''; 
+            if (repos.length === 0) { projectsGrid.innerHTML = `<div class="col-span-full text-center text-slate-500">Пока нет публичных репозиториев.</div>`; return; }
+
+            repos.forEach(repo => {
+                const card = document.createElement('a');
+                card.href = repo.html_url; card.target = "_blank";
+                card.className = "glow-card block p-6 bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-slate-200 dark:border-slate-700 fade-up cursor-pointer";
+                
+                const langColor = repo.language === 'Java' ? 'text-red-500' : repo.language === 'C++' ? 'text-indigo-500' : repo.language === 'C#' ? 'text-purple-500' : repo.language === 'Python' ? 'text-yellow-500' : 'text-brand-500';
+                const languageTag = repo.language ? `<span class="text-xs font-bold uppercase tracking-wider ${langColor} bg-slate-100 dark:bg-slate-900 px-2 py-1 rounded">${repo.language}</span>` : '';
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <i class="fa-regular fa-folder-open text-3xl text-brand-500"></i>
+                        <i class="fa-brands fa-github text-xl text-slate-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2 truncate">${repo.name}</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-3 h-16">${repo.description || 'Описание отсутствует.'}</p>
+                    <div class="flex items-center justify-between">
+                        ${languageTag}
+                        <div class="flex items-center space-x-3 text-xs text-slate-500 dark:text-slate-400">
+                            <span><i class="fa-regular fa-star"></i> ${repo.stargazers_count}</span>
+                            <span><i class="fa-solid fa-code-fork"></i> ${repo.forks_count}</span>
+                        </div>
+                    </div>
+                `;
+                projectsGrid.appendChild(card);
+                if (typeof VanillaTilt !== 'undefined') VanillaTilt.init(card, { max: 10, speed: 400, glare: true, "max-glare": 0.1 });
+            });
+            document.querySelectorAll('#github-projects-grid .fade-up').forEach((el) => observer.observe(el));
+        }
+
+        async function fetchGitHubProjects() {
+            const cacheKey = 'github_repos_vlad';
+            const cacheTime = localStorage.getItem(cacheKey + '_time');
+            const cachedData = localStorage.getItem(cacheKey);
+            const now = new Date().getTime();
+
+            if (cachedData && cacheTime && (now - parseInt(cacheTime) < 7200000)) { renderGitHubProjects(JSON.parse(cachedData)); return; }
+            try {
+                const response = await fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=6`);
+                if (!response.ok) throw new Error('Network error');
+                const repos = await response.json();
+                localStorage.setItem(cacheKey, JSON.stringify(repos)); localStorage.setItem(cacheKey + '_time', now.toString());
+                renderGitHubProjects(repos);
+            } catch (error) {
+                console.error('GitHub error:', error);
+                if (cachedData) renderGitHubProjects(JSON.parse(cachedData));
+                else projectsGrid.innerHTML = `<div class="col-span-full text-center text-red-500">Не удалось загрузить проекты. Проверьте сеть.</div>`;
+            }
+        }
+        fetchGitHubProjects();
+
+        const terminal = document.getElementById('terminal');
+        const terminalInput = document.getElementById('terminalInput');
+        const visualInput = document.getElementById('terminalVisualInput');
+        const terminalOutput = document.getElementById('terminalOutput');
+        
+        let audioCtx; 
+        function playTypingSound() {
+            if(!isSoundOn) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator(); const gainNode = audioCtx.createGain();
+                osc.type = 'square'; osc.frequency.setValueAtTime(300 + Math.random() * 100, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.015, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+                osc.connect(gainNode); gainNode.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.03);
+            } catch(e) {} 
+        }
+
+        let isTerminalOpen = false;
+        let termSessionCount = parseInt(localStorage.getItem('termSessions') || '0');
+
+        function toggleTerminal() {
+            isTerminalOpen = !isTerminalOpen;
+            if (isTerminalOpen) {
+                terminal.classList.add('open');
+                setTimeout(() => terminalInput.focus(), 100); 
+                playBeep(400, 'sawtooth', 0.2, 0.05);
+                
+                if (!terminalOutput.getAttribute('data-session-logged')) {
+                    termSessionCount++;
+                    localStorage.setItem('termSessions', termSessionCount);
+                    printLine(`Подключение успешно. Сеанс связи №${termSessionCount}`, false, false);
+                    terminalOutput.setAttribute('data-session-logged', 'true');
+                }
+            } else {
+                terminal.classList.remove('open');
+                terminalInput.blur();
+                playBeep(300, 'sawtooth', 0.2, 0.05);
+            }
+        }
+
+        function handleTerminalClick(e) {
+            e.stopPropagation();
+            
+            if (window.innerWidth < 768) {
+                showToast("DO A BARREL ROLL! 🛩️");
+                
+                playBeep(400, 'sine', 0.1, 0.05);
+                setTimeout(() => playBeep(600, 'sine', 0.1, 0.05), 150);
+                setTimeout(() => playBeep(800, 'sine', 0.3, 0.05), 300);
+                
+                document.body.classList.add('do-barrel-roll');
+                
+                setTimeout(() => {
+                    document.body.classList.remove('do-barrel-roll');
+                }, 1500);
+                
+                return;
+            }
+            
+            toggleTerminal();
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Backquote' || e.code === 'Escape') {
+                if(e.code === 'Escape' && isSnakeRunning) return; 
+                
+                if (e.code === 'Backquote') e.preventDefault(); 
+                if (e.code === 'Escape' && !isTerminalOpen) return;
+                toggleTerminal();
+            }
+        });
+
+        terminalInput.addEventListener('input', () => {
+            visualInput.textContent = terminalInput.value;
+            playTypingSound();
+        });
+
+        const commandHistory = []; 
+        let historyIndex = -1; 
+
+        let isSnakeRunning = false;
+        let snakeLoop = null;
+        let snakeScore = 0;
+        
+        function startGameSnake() {
+            if(isSnakeRunning) return;
+            isSnakeRunning = true;
+            terminalOutput.innerHTML = '';
+            printLine('<span class="text-yellow-400 font-bold">--- ЗМЕЙКА ЗАПУЩЕНА ---</span><br>Управление: Стрелочки.<br>Выход: ESC', true);
+            
+            const sCanvas = document.getElementById('matrixCanvas');
+            const sCtx = sCanvas.getContext('2d');
+            sCanvas.style.opacity = '1';
+            sCanvas.style.zIndex = '5';
+            
+            const rect = terminal.getBoundingClientRect();
+            sCanvas.width = rect.width;
+            sCanvas.height = rect.height;
+            
+            const gridSize = 20;
+            const maxCol = Math.floor(sCanvas.width / gridSize);
+            const maxRow = Math.floor(sCanvas.height / gridSize);
+            
+            const startX = Math.floor(maxCol / 2);
+            const startY = Math.floor(maxRow / 2);
+            
+            let snake = [
+                {x: startX, y: startY},
+                {x: startX - 1, y: startY},
+                {x: startX - 2, y: startY}
+            ];
+            
+            let food = { x: Math.floor(Math.random() * maxCol), y: Math.floor(Math.random() * maxRow) };
+            
+            let dx = 1; let dy = 0;
+            let nextDx = 1; let nextDy = 0; 
+            snakeScore = 0;
+
+            const handleSnakeKeys = (e) => {
+                if(e.key === 'ArrowUp' && dy !== 1) { nextDx=0; nextDy=-1; e.preventDefault(); }
+                if(e.key === 'ArrowDown' && dy !== -1) { nextDx=0; nextDy=1; e.preventDefault(); }
+                if(e.key === 'ArrowLeft' && dx !== 1) { nextDx=-1; nextDy=0; e.preventDefault(); }
+                if(e.key === 'ArrowRight' && dx !== -1) { nextDx=1; nextDy=0; e.preventDefault(); }
+                if(e.key === 'Escape') { endSnake(); e.preventDefault(); }
+            };
+            window.addEventListener('keydown', handleSnakeKeys);
+
+            function endSnake() {
+                isSnakeRunning = false;
+                clearInterval(snakeLoop);
+                window.removeEventListener('keydown', handleSnakeKeys);
+                sCanvas.style.opacity = '0';
+                sCanvas.style.zIndex = '0';
+                sCtx.clearRect(0,0,sCanvas.width, sCanvas.height);
+                printLine(`<span class="text-red-400 font-bold">ИГРА ОКОНЧЕНА. Ваш счет: ${snakeScore}</span>`, true);
+            }
+
+            snakeLoop = setInterval(() => {
+                dx = nextDx; dy = nextDy;
+                const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                
+                if(head.x < 0) head.x = maxCol - 1;
+                if(head.x >= maxCol) head.x = 0;
+                if(head.y < 0) head.y = maxRow - 1;
+                if(head.y >= maxRow) head.y = 0;
+                
+                for(let i=0; i < snake.length; i++){
+                    if(head.x === snake[i].x && head.y === snake[i].y){
+                        endSnake(); return;
+                    }
+                }
+                
+                snake.unshift(head);
+                
+                if(head.x === food.x && head.y === food.y) {
+                    snakeScore++;
+                    food = { x: Math.floor(Math.random() * maxCol), y: Math.floor(Math.random() * maxRow) };
+                    playBeep(800, 'square', 0.1);
+                } else { snake.pop(); }
+                
+                sCtx.fillStyle = 'rgba(15, 23, 42, 1)'; 
+                sCtx.fillRect(0,0,sCanvas.width,sCanvas.height);
+                
+                sCtx.fillStyle = '#ef4444';
+                sCtx.beginPath();
+                sCtx.arc(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2 - 2, Math.PI*2);
+                sCtx.fill();
+                
+                snake.forEach((seg, index) => { 
+                    sCtx.fillStyle = index === 0 ? '#22c55e' : '#4ade80';
+                    sCtx.fillRect(seg.x * gridSize + 1, seg.y * gridSize + 1, gridSize - 2, gridSize - 2); 
+                });
+                
+                sCtx.fillStyle = 'white';
+                sCtx.font = "bold 18px 'Fira Code', monospace";
+                sCtx.fillText(`СЧЕТ: ${snakeScore}`, 20, 30);
+            }, 100); 
+        }
+
+        const commands = {
+            'help': 'Список доступных команд:\n  help          - показать это сообщение\n  clear         - очистить консоль\n  whoami        - узнать кто я\n  fetch projects- Загрузить GitHub проекты\n  stress-test   - Запустить симуляцию DDOS атаки\n  play snake    - Сыграть в классическую змейку\n  destroy       - Уничтожить этот сайт\n  theme         - [dark/light] переключить тему\n  matrix        - войти в матрицу\n  sudo          - выполнить с правами суперпользователя\n  lang          - [ru/en] сменить язык\n  echo          - вывод текста',
+            'clear': () => { terminalOutput.innerHTML = ''; },
+            'whoami': 'Влад. Пишу код, пью кофе, фиксирую баги (иногда создаю новые).',
+            'matrix': () => { startMatrix(); return 'Подключение к Матрице...'; },
+            
+            'sudo': () => {
+                terminalOutput.classList.add('text-red-500');
+                setTimeout(() => terminalOutput.classList.remove('text-red-500'), 2000);
+                return 'ВНИМАНИЕ: Инцидент безопасности зарегистрирован.\nВаш IP передан в киберполицию.\n...Шучу. Но прав у вас всё равно нет. 🕵️‍♂️';
+            },
+
+            'fetch projects': () => {
+                const cached = localStorage.getItem('github_repos_vlad');
+                if(cached) {
+                    const repos = JSON.parse(cached);
+                    printLine("<span class='text-brand-400 font-bold'>Имя проекта          | Язык    | Звезды</span>", true);
+                    printLine("------------------------------------------");
+                    repos.forEach(r => {
+                        const name = r.name.padEnd(20).substring(0,20);
+                        const lang = (r.language || 'N/A').padEnd(7);
+                        printLine(`${name} | ${lang} | ⭐ ${r.stargazers_count}`);
+                    });
+                    return "\nДанные успешно синхронизированы с GitHub API.";
+                }
+                return "Сначала прокрутите страницу вниз, чтобы проекты кэшировались!";
+            },
+
+            'stress-test': () => {
+                terminalOutput.classList.add('text-red-500');
+                terminal.classList.add('animate-pulse');
+                playBeep(200, 'sawtooth', 5.0, 0.1); 
+                let stressInt = setInterval(() => {
+                    printLine(`[FATAL ERROR] Memory leak at 0x${Math.floor(Math.random()*16777215).toString(16).toUpperCase()}... CPU at 99%`, false, true);
+                }, 50);
+                
+                setTimeout(() => {
+                    clearInterval(stressInt);
+                    terminalOutput.classList.remove('text-red-500');
+                    terminal.classList.remove('animate-pulse');
+                    printLine("<br><span class='text-green-500 font-bold text-lg'>Стресс-тест пройден. Архитектура Влада выдержала нагрузку.</span>", true);
+                }, 5000);
+                return 'Инициализация симуляции высокой нагрузки...';
+            },
+
+            'play snake': () => { startGameSnake(); return ''; },
+
+            'destroy': () => {
+                if(document.getElementById('asteroids-script')) return 'Протокол уничтожения уже был запущен!';
+                
+                isDestroyMode = true; 
+                
+                const style = document.createElement('style');
+                style.innerHTML = `body, a, button, .cursor-pointer { cursor: crosshair !important; } #custom-cursor { display: none !important; }`;
+                document.head.appendChild(style);
+
+                window.KICKASSVERSION = '2.0';
+
+                const s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.id = 'asteroids-script';
+                s.src = 'https://cdn.jsdelivr.net/gh/erkie/erkie.github.com@master/asteroids.min.js'; 
+                document.body.appendChild(s);
+                
+                setTimeout(() => {
+                    if(isTerminalOpen) toggleTerminal(); 
+                    
+                    showToast("СТРЕЛЯЙ: Пробел | ЛЕТАЙ: Стрелочки 🚀"); 
+                }, 500);
+                
+                return 'Протокол уничтожения активирован. Готовьтесь к бою...';
+            }
+        };
+
+        const availableCommandsList = ['help', 'clear', 'whoami', 'fetch projects', 'stress-test', 'play snake', 'destroy', 'theme dark', 'theme light', 'matrix', 'sudo', 'lang ru', 'lang en', 'echo'];
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if(isSnakeRunning) { e.preventDefault(); return; }
+
+            if (e.key === 'Enter') {
+                const cmd = terminalInput.value.trim();
+                if (cmd !== '') {
+                    commandHistory.push(cmd);
+                    historyIndex = commandHistory.length; 
+                    processCommand(cmd);
+                }
+                terminalInput.value = '';
+                visualInput.textContent = '';
+                setTimeout(() => terminalOutput.scrollTop = terminalOutput.scrollHeight, 50);
+            }
+            else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    terminalInput.value = commandHistory[historyIndex];
+                    visualInput.textContent = terminalInput.value;
+                }
+            }
+            else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    terminalInput.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = commandHistory.length;
+                    terminalInput.value = '';
+                }
+                visualInput.textContent = terminalInput.value;
+            }
+            else if (e.key === 'Tab') {
+                e.preventDefault(); 
+                const currentVal = terminalInput.value;
+                const matches = availableCommandsList.filter(c => c.startsWith(currentVal));
+                
+                if (matches.length === 1) {
+                    terminalInput.value = matches[0];
+                    visualInput.textContent = terminalInput.value;
+                } else if (matches.length > 1) {
+                    printLine(`guest@vlad:~$ ${currentVal}`);
+                    printLine(matches.join('  '));
+                }
+            }
+        });
+
+        function printLine(text, isHtml = false, isError = false) {
+            const div = document.createElement('div');
+            if (isError) div.className = 'text-red-500 mt-1 mb-2';
+            else div.className = 'mt-1 mb-2';
+            
+            if (isHtml) div.innerHTML = text;
+            else div.textContent = text;
+            
+            terminalOutput.appendChild(div);
+        }
+
+        function processCommand(rawCmd) {
+            printLine(`guest@vlad:~$ ${rawCmd}`);
+            const cmdParts = rawCmd.trim().split(/\s+/);
+            const mainCmd = cmdParts[0].toLowerCase();
+            const fullCmd = rawCmd.trim().toLowerCase();
+
+            if (fullCmd === 'fetch projects' || fullCmd === 'stress-test' || fullCmd === 'play snake' || fullCmd === 'destroy') {
+                const res = commands[fullCmd]();
+                if(res) printLine(res);
+                return;
+            }
+
+            if (mainCmd === 'theme') {
+                if (cmdParts[1] === 'dark') { setTheme(true); printLine('Темная тема активирована.'); }
+                else if (cmdParts[1] === 'light') { setTheme(false); printLine('Светлая тема активирована.'); }
+                else printLine('Использование: theme dark | theme light');
+                return;
+            }
+
+            if (mainCmd === 'lang') {
+                if (cmdParts[1] === 'ru' || cmdParts[1] === 'en') {
+                    setLanguage(cmdParts[1]);
+                    printLine(`Язык системы изменен на: ${cmdParts[1].toUpperCase()}`);
+                } else {
+                    printLine('Использование: lang ru | lang en');
+                }
+                return;
+            }
+
+            if (mainCmd === 'echo') {
+                const echoText = rawCmd.substring(rawCmd.indexOf(' ') + 1);
+                if(cmdParts.length > 1) printLine(echoText);
+                return;
+            }
+
+            if (mainCmd === 'sudo') {
+                printLine(commands['sudo']());
+                return;
+            }
+            
+            if (commands[mainCmd]) {
+                const response = commands[mainCmd];
+                if (typeof response === 'function') {
+                    const resText = response();
+                    if(resText) printLine(resText);
+                } else {
+                    printLine(response);
+                }
+            } else {
+                printLine(`bash: ${mainCmd}: команда не найдена`);
+            }
+        }
+
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        let matrixInterval = null;
+
+        function startMatrix() {
+            if (matrixInterval) return; 
+            canvas.style.opacity = '0.3'; 
+            canvas.style.zIndex = '0';
+            canvas.width = terminal.offsetWidth;
+            canvas.height = terminal.offsetHeight;
+
+            const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const rainDrops = [];
+            for (let x = 0; x < columns; x++) rainDrops[x] = 1;
+
+            const draw = () => {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0F0';
+                ctx.font = fontSize + 'px monospace';
+                for (let i = 0; i < rainDrops.length; i++) {
+                    const text = katakana.charAt(Math.floor(Math.random() * katakana.length));
+                    ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
+                    rainDrops[i]++;
+                }
+            };
+            matrixInterval = setInterval(draw, 30);
+            
+            setTimeout(() => {
+                clearInterval(matrixInterval); matrixInterval = null;
+                canvas.style.opacity = '0';
+                setTimeout(() => ctx.clearRect(0,0,canvas.width, canvas.height), 1000);
+            }, 10000);
+        }
+
+        let logoClicks = 0;
+        let discoInterval = null;
+        const logoEl = document.getElementById('logo-text');
+        
+        logoEl.addEventListener('click', (e) => {
+            logoClicks++;
+            if (logoClicks === 5) {
+                showToast("Пасхалка найдена: Режим разработчика! 🪩");
+                playBeep(1500, 'sine', 0.5, 0.1);
+                
+                if(!discoInterval) {
+                    discoInterval = setInterval(() => {
+                        const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6'];
+                        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                        logoEl.style.color = randomColor;
+                        logoEl.style.textShadow = `0 0 15px ${randomColor}`;
+                    }, 400);
+                } else {
+                    clearInterval(discoInterval); discoInterval = null;
+                    logoEl.style.color = ''; logoEl.style.textShadow = '';
+                    showToast("Обычный режим восстановлен.");
+                }
+                logoClicks = 0;
+            }
+            setTimeout(() => { if (logoClicks > 0 && logoClicks < 5) logoClicks = 0; }, 2000);
+        });
+
+        let pressedKeys = [];
+        const secretCode = 'ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba';
+
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || isTerminalOpen) return;
+            pressedKeys.push(e.key);
+            pressedKeys.splice(-15, pressedKeys.length - 15);
+            
+            if (pressedKeys.join('').includes(secretCode)) {
+                activateSmoothZeroGravity();
+                pressedKeys = []; 
+            }
+        });
+
+        function activateSmoothZeroGravity() {
+            showToast("Гравитация отключена. Наслаждайтесь полетом 🌌");
+            playBeep(200, 'sine', 3.0, 0.05); 
+            
+            const allElements = document.querySelectorAll('.skill-card, .glow-card, .nav-item, h1, h2, h3, p, button:not(#scrollTopBtn)');
+            allElements.forEach(el => {
+                if (el.closest('#terminal')) return;
+                el.dataset.oldTransition = window.getComputedStyle(el).transition;
+                
+                const randomX = (Math.random() - 0.5) * 60; 
+                const randomY = (Math.random() - 0.5) * -100 - 30; 
+                const randomRotate = (Math.random() - 0.5) * 15; 
+
+                el.style.transition = 'transform 10s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                el.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+                el.style.pointerEvents = 'none';
+            });
+
+            setTimeout(() => {
+                allElements.forEach(el => {
+                    if (el.closest('#terminal')) return;
+                    el.style.transition = 'transform 5s ease-in-out';
+                    el.style.transform = 'translate(0px, 0px) rotate(0deg)';
+                    el.style.pointerEvents = 'auto';
+
+                    setTimeout(() => {
+                        el.style.transition = el.dataset.oldTransition || '';
+                        el.style.transform = '';
+                    }, 5000);
+                });
+                showToast("Гравитация восстановлена. 🌍");
+                playBeep(400, 'sine', 1.0, 0.05);
+            }, 10000); 
+        }
     </script>
 </body>
 </html>
